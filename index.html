@@ -4,9 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Quick Call</title>
-    <!-- Professional pink dial icon for browser tab -->
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23b91c1c'%3E%3Cpath d='M20 10.999h2C22 5.869 18.127 2 12.99 2v2C17.052 4 20 6.943 20 10.999z'/%3E%3Cpath d='M13 8c2.103 0 3 .897 3 3h2c0-3.225-1.775-5-5-5v2z'/%3E%3Cpath d='M16.422 13.443c-.293-.293-.684-.45-1.076-.45-.397 0-.788.157-1.083.45l-2.12 2.12c-2.244-.783-3.814-2.354-4.596-4.58l2.12-2.12c.586-.586.586-1.536 0-2.122L6.3 4.221c-.293-.293-.684-.45-1.076-.45-.397 0-.788.157-1.083.45L2.5 5.865c-.657.657-.92 1.564-.756 2.421.55 2.826 2.28 5.647 4.696 8.064 2.416 2.416 5.238 4.146 8.064 4.696.857.164 1.764-.099 2.421-.756l1.644-1.644c.293-.293.45-.684.45-1.083 0-.392-.157-.783-.45-1.076l-3.069-3.069z' fill='%23b91c1c'/%3E%3C/svg%3E" type="image/svg+xml">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -22,16 +19,18 @@ font-family:'Baloo Da 2',cursive;
 body{
 background:#fff0f6;
 min-height:100vh;
-padding:24px;
+padding:20px;
 color:#831843;
 transition:0.3s;
 display:flex;
 flex-direction:column;
 }
 
+/* Professional Dark Navy Night Mode */
 body.night-mode{
-background:#2a0e1a;
-color:#ffe4f2;
+background:linear-gradient(135deg,#0f172a,#1e293b);
+color:#fbcfe8;
+backdrop-filter:blur(10px);
 }
 
 .container{
@@ -42,48 +41,56 @@ flex:1;
 
 .logo-area{
 text-align:center;
-margin-bottom:30px;
+margin-bottom:25px;
 }
 
 .logo-area h1{
-font-size:42px;
+font-size:40px;
 font-weight:800;
 background:linear-gradient(145deg,#ec4899,#db2777);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
 
+.logo-area span{
+display:block;
+font-size:14px;
+margin-top:5px;
+font-weight:600;
+color:#db2777;
+}
+
 .theme-btn{
 background:white;
 border:1px solid #fbcfe8;
-padding:10px 25px;
+padding:8px 22px;
 border-radius:40px;
 cursor:pointer;
-margin-top:15px;
+margin-top:12px;
 font-weight:600;
 }
 
 body.night-mode .theme-btn{
-background:#3f1630;
+background:#1e293b;
 color:white;
 border-color:#db2777;
 }
 
 .section{
 background:white;
-padding:30px;
+padding:25px;
 border-radius:25px;
 box-shadow:0 8px 20px rgba(236,72,153,0.15);
-margin-bottom:30px;
+margin-bottom:25px;
 }
 
 body.night-mode .section{
-background:#3f1630;
+background:#1e293b;
 }
 
 .section h2{
 margin-bottom:20px;
-font-size:24px;
+font-size:22px;
 color:#db2777;
 display:flex;
 align-items:center;
@@ -93,66 +100,146 @@ gap:10px;
 .service-grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-gap:20px;
+gap:18px;
 }
 
 .service-card{
 background:#fce7f3;
 border-radius:20px;
-padding:25px 10px;
+padding:20px;
 text-align:center;
 cursor:pointer;
 font-weight:600;
 transition:0.2s;
 border:1px solid #fbcfe8;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
 }
 
 .service-card:hover{
 transform:translateY(-5px);
-background:#fbcfe8;
 }
 
 body.night-mode .service-card{
-background:#521b3c;
+background:#334155;
 border-color:#db2777;
 }
 
+/* ICON COLORS */
 .service-card i{
 font-size:38px;
-color:#ec4899;
 margin-bottom:10px;
 }
 
+.emergency-icon{color:#dc2626;}
+.location-icon{color:#0ea5e9;}
+.whatsapp-icon{color:#16a34a;}
+.fake-icon{color:#ec4899;}
+
+.popup{
+position:fixed;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+background:#ec4899;
+color:white;
+padding:12px 25px;
+border-radius:30px;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+display:none;
+z-index:999;
+}
+
+iframe{
+touch-action:pan-x pan-y;
+}
+
+/* Fake Redmi Call UI */
 .fake-call-screen{
 position:fixed;
 top:0;
 left:0;
 width:100%;
 height:100%;
-background:#000;
+background:black;
 color:white;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-z-index:999;
 display:none;
+flex-direction:column;
+justify-content:space-between;
+padding:30px;
+z-index:9999;
 }
 
-.fake-call-screen button{
-background:#ec4899;
-border:none;
-padding:12px 25px;
-border-radius:30px;
+.call-header{
+text-align:center;
+margin-top:40px;
+}
+
+.call-header h2{
+font-size:28px;
+}
+
+.call-actions{
+display:flex;
+justify-content:space-around;
+margin-bottom:40px;
+}
+
+.call-btn{
+width:70px;
+height:70px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:28px;
 color:white;
 cursor:pointer;
-font-size:16px;
+}
+
+.decline{background:#dc2626;}
+.accept{background:#16a34a;}
+
+.credit-btn{
+width:100%;
+padding:12px;
+border-radius:30px;
+border:none;
+background:#ec4899;
+color:white;
+cursor:pointer;
+}
+
+.credit-box{
+display:none;
+margin-top:15px;
+}
+
+.credit-box ul{
+list-style:disc;
+padding-left:20px;
+}
+
+.qr{
+text-align:center;
+margin-top:20px;
+}
+
+.qr img{
+width:140px;
+border-radius:20px;
 }
 
 footer{
 text-align:center;
-margin-top:40px;
+margin-top:20px;
 font-size:14px;
+}
+
+@media(max-width:600px){
+.logo-area h1{font-size:30px;}
 }
 </style>
 </head>
@@ -163,7 +250,7 @@ font-size:14px;
 
 <div class="logo-area">
 <h1>QUICK CALL</h1>
-<p>Under Maintenance · Contacts Aren't Verified</p>
+<span>For Women Safety & Emergency Support</span>
 <button class="theme-btn" onclick="toggleTheme()">DAY / NIGHT</button>
 </div>
 
@@ -173,27 +260,22 @@ font-size:14px;
 <div class="service-grid">
 
 <div class="service-card" onclick="quickCall('999')">
-<i class="fas fa-phone-volume"></i>
-National Emergency
-</div>
-
-<div class="service-card" onclick="quickCall('109')">
-<i class="fas fa-heart"></i>
-Women Helpline
+<i class="fas fa-triangle-exclamation emergency-icon"></i>
+Emergency Call
 </div>
 
 <div class="service-card" onclick="getLocation()">
-<i class="fas fa-map-marker-alt"></i>
-Live Location
+<i class="fas fa-location-dot location-icon"></i>
+Your Location
 </div>
 
 <div class="service-card" onclick="shareLocation()">
-<i class="fab fa-whatsapp"></i>
+<i class="fab fa-whatsapp whatsapp-icon"></i>
 Share Location
 </div>
 
 <div class="service-card" onclick="fakeCall()">
-<i class="fas fa-user-secret"></i>
+<i class="fas fa-phone fake-icon"></i>
 Fake Call
 </div>
 
@@ -206,25 +288,41 @@ Fake Call
 </div>
 
 <div class="section">
-<h2><i class="fas fa-book"></i> Safety Tips</h2>
+<button class="credit-btn" onclick="toggleCredit()">CREDIT</button>
+<div class="credit-box" id="creditBox">
 <ul>
-<li>Always share your live location with trusted person.</li>
-<li>Keep emergency numbers in speed dial.</li>
-<li>Trust your instincts.</li>
-<li>Avoid isolated places at night.</li>
-<li>Use public transport tracking when possible.</li>
+<li>Creator : Kabya Saha</li>
+<li>AI Assistance : ChatGPT • DeepSeek</li>
+<li>Web Hosting : InfinityFree</li>
+<li>Date Created : 03/03/2026</li>
 </ul>
 </div>
+</div>
 
-  <footer>© 2026 All Rights Reserved.</footer>
+<div class="qr">
+<img src="https://images4.imagebam.com/54/e7/73/ME1B1XIM_o.jpg">
+</div>
+
+<footer>© 2026 All Rights Reserved.</footer>
 
 </div>
 
+<div class="popup" id="popup">Scroll Down To View Map</div>
+
 <div class="fake-call-screen" id="fakeCallScreen">
-<h1>📞 Incoming Call...</h1>
-<p>Mom 💗</p>
-<br>
-<button onclick="closeFakeCall()">End Call</button>
+<div class="call-header">
+<h2>Mom 💗</h2>
+<p>Incoming Call...</p>
+</div>
+
+<div class="call-actions">
+<div class="call-btn decline" onclick="closeFakeCall()">
+<i class="fas fa-phone-slash"></i>
+</div>
+<div class="call-btn accept" onclick="closeFakeCall()">
+<i class="fas fa-phone"></i>
+</div>
+</div>
 </div>
 
 <script>
@@ -249,12 +347,12 @@ if(navigator.geolocation){
 navigator.geolocation.getCurrentPosition(function(position){
 let lat = position.coords.latitude;
 let lon = position.coords.longitude;
-let mapURL = "https://www.google.com/maps?q=" + lat + "," + lon + "&output=embed";
+let mapURL = "https://www.google.com/maps?q=" + lat + "," + lon + "&output=embed&hl=en";
 document.getElementById("mapFrame").src = mapURL;
 document.getElementById("mapSection").style.display="block";
+document.getElementById("popup").style.display="block";
+setTimeout(()=>{document.getElementById("popup").style.display="none";},3000);
 });
-}else{
-alert("Geolocation not supported");
 }
 }
 
@@ -283,6 +381,11 @@ document.getElementById("fakeCallScreen").style.display="none";
 if(window.currentRingtone){
 window.currentRingtone.pause();
 }
+}
+
+function toggleCredit(){
+let box=document.getElementById("creditBox");
+box.style.display = box.style.display==="block"?"none":"block";
 }
 </script>
 
