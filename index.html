@@ -21,16 +21,13 @@ background:#fff0f6;
 min-height:100vh;
 padding:20px;
 color:#831843;
-transition:0.3s;
 display:flex;
 flex-direction:column;
 }
 
-/* Professional Dark Navy Night Mode */
 body.night-mode{
 background:linear-gradient(135deg,#0f172a,#1e293b);
 color:#fbcfe8;
-backdrop-filter:blur(10px);
 }
 
 .container{
@@ -45,7 +42,7 @@ margin-bottom:25px;
 }
 
 .logo-area h1{
-font-size:40px;
+font-size:36px;
 font-weight:800;
 background:linear-gradient(145deg,#ec4899,#db2777);
 -webkit-background-clip:text;
@@ -61,26 +58,20 @@ color:#db2777;
 }
 
 .theme-btn{
-background:white;
-border:1px solid #fbcfe8;
+background:#2563eb;
+color:white;
+border:none;
 padding:8px 22px;
-border-radius:40px;
+border-radius:30px;
 cursor:pointer;
 margin-top:12px;
-font-weight:600;
-}
-
-body.night-mode .theme-btn{
-background:#1e293b;
-color:white;
-border-color:#db2777;
 }
 
 .section{
 background:white;
 padding:25px;
 border-radius:25px;
-box-shadow:0 8px 20px rgba(236,72,153,0.15);
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
 margin-bottom:25px;
 }
 
@@ -92,9 +83,6 @@ background:#1e293b;
 margin-bottom:20px;
 font-size:22px;
 color:#db2777;
-display:flex;
-align-items:center;
-gap:10px;
 }
 
 .service-grid{
@@ -104,59 +92,60 @@ gap:18px;
 }
 
 .service-card{
-background:#fce7f3;
 border-radius:20px;
 padding:20px;
 text-align:center;
 cursor:pointer;
 font-weight:600;
 transition:0.2s;
-border:1px solid #fbcfe8;
 display:flex;
 flex-direction:column;
 align-items:center;
-justify-content:center;
+color:white;
 }
 
-.service-card:hover{
-transform:translateY(-5px);
-}
-
-body.night-mode .service-card{
-background:#334155;
-border-color:#db2777;
-}
-
-/* ICON COLORS */
 .service-card i{
 font-size:38px;
 margin-bottom:10px;
 }
 
-.emergency-icon{color:#dc2626;}
-.location-icon{color:#0ea5e9;}
-.whatsapp-icon{color:#16a34a;}
-.fake-icon{color:#ec4899;}
+.emergency{background:#dc2626;}
+.location{background:#0ea5e9;}
+.whatsapp{background:#16a34a;}
+.fake{background:#ec4899;}
 
-.popup{
-position:fixed;
-bottom:20px;
-left:50%;
-transform:translateX(-50%);
-background:#ec4899;
-color:white;
-padding:12px 25px;
-border-radius:30px;
-box-shadow:0 5px 15px rgba(0,0,0,0.3);
-display:none;
-z-index:999;
+.service-card:hover{
+transform:translateY(-5px);
 }
 
+/* Map */
 iframe{
-touch-action:pan-x pan-y;
+border-radius:20px;
+border:none;
 }
 
-/* Fake Redmi Call UI */
+/* Map Buttons */
+.map-buttons{
+margin-top:15px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.map-buttons button{
+flex:1;
+padding:10px;
+border:none;
+border-radius:20px;
+cursor:pointer;
+color:white;
+font-weight:600;
+}
+
+.open-btn{background:#2563eb;}
+.nav-btn{background:#16a34a;}
+
+/* Xiaomi-style Fake Call UI (Replaced as requested) */
 .fake-call-screen{
 position:fixed;
 top:0;
@@ -168,19 +157,89 @@ color:white;
 display:none;
 flex-direction:column;
 justify-content:space-between;
-padding:30px;
+padding:15px 20px 40px;
 z-index:9999;
+font-family:sans-serif;
 }
 
-.call-header{
+/* STATUS BAR */
+.status-bar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-size:13px;
+}
+
+.status-left{
+font-weight:500;
+}
+
+.status-right{
+display:flex;
+align-items:center;
+gap:6px;
+}
+
+.status-right i{
+font-size:13px;
+}
+
+.battery{
+width:22px;
+height:10px;
+border:1.5px solid white;
+border-radius:2px;
+position:relative;
+}
+
+.battery::after{
+content:'';
+position:absolute;
+right:-4px;
+top:2px;
+width:3px;
+height:6px;
+background:white;
+border-radius:1px;
+}
+
+.battery-level{
+width:69%;
+height:100%;
+background:#4ade80;
+}
+
+.battery-text{
+font-size:11px;
+margin-left:2px;
+}
+
+/* CALLER TOP AREA */
+.caller-top{
 text-align:center;
 margin-top:40px;
 }
 
-.call-header h2{
-font-size:28px;
+.caller-top img{
+width:138px;
+height:138px;
+border-radius:50%;
+object-fit:cover;
+margin-bottom:04px;
 }
 
+.caller-top h2{
+font-size:43px;
+font-weight:2000;
+margin-bottom:3px;
+}
+
+.caller-top p{
+font-size:22px;
+opacity:0.7;
+}
+
+/* CALL BUTTONS */
 .call-actions{
 display:flex;
 justify-content:space-around;
@@ -188,62 +247,48 @@ margin-bottom:40px;
 }
 
 .call-btn{
-width:70px;
-height:70px;
+width:80px;
+height:80px;
 border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
 font-size:28px;
-color:white;
 cursor:pointer;
 }
 
-.decline{background:#dc2626;}
-.accept{background:#16a34a;}
-
-.credit-btn{
-width:100%;
-padding:12px;
-border-radius:30px;
-border:none;
-background:#ec4899;
-color:white;
-cursor:pointer;
+/* Xiaomi style soft pulse */
+.accept{
+background:#22c55e;
+animation:pulseGreen 1.6s infinite;
 }
 
-.credit-box{
-display:none;
-margin-top:15px;
+.decline{
+background:#ef4444;
+animation:pulseRed 1.6s infinite;
 }
 
-.credit-box ul{
-list-style:disc;
-padding-left:20px;
+@keyframes pulseGreen{
+0%{box-shadow:0 0 0 0 rgba(34,197,94,0.7);}
+70%{box-shadow:0 0 0 25px rgba(34,197,94,0);}
+100%{box-shadow:0 0 0 0 rgba(34,197,94,0);}
 }
 
-.qr{
-text-align:center;
-margin-top:20px;
+@keyframes pulseRed{
+0%{box-shadow:0 0 0 0 rgba(239,68,68,0.7);}
+70%{box-shadow:0 0 0 25px rgba(239,68,68,0);}
+100%{box-shadow:0 0 0 0 rgba(239,68,68,0);}
 }
 
-.qr img{
-width:140px;
-border-radius:20px;
-}
-
-footer{
-text-align:center;
-margin-top:20px;
-font-size:14px;
-}
+/* old lock-info (no longer used but keep if any reference) */
+.lock-info{display:none;}
 
 @media(max-width:600px){
-.logo-area h1{font-size:30px;}
+.logo-area h1{font-size:26px;}
+.call-btn{width:70px;height:70px;font-size:26px;}
 }
 </style>
 </head>
-
 <body>
 
 <div class="container">
@@ -255,27 +300,27 @@ font-size:14px;
 </div>
 
 <div class="section">
-<h2><i class="fas fa-bolt"></i> Emergency Services</h2>
+<h2>Emergency Services</h2>
 
 <div class="service-grid">
 
-<div class="service-card" onclick="quickCall('999')">
-<i class="fas fa-triangle-exclamation emergency-icon"></i>
+<div class="service-card emergency" onclick="quickCall('999')">
+<i class="fas fa-triangle-exclamation"></i>
 Emergency Call
 </div>
 
-<div class="service-card" onclick="getLocation()">
-<i class="fas fa-location-dot location-icon"></i>
+<div class="service-card location" onclick="getLocation()">
+<i class="fas fa-location-dot"></i>
 Your Location
 </div>
 
-<div class="service-card" onclick="shareLocation()">
-<i class="fab fa-whatsapp whatsapp-icon"></i>
+<div class="service-card whatsapp" onclick="shareLocation()">
+<i class="fab fa-whatsapp"></i>
 Share Location
 </div>
 
-<div class="service-card" onclick="fakeCall()">
-<i class="fas fa-phone fake-icon"></i>
+<div class="service-card fake" onclick="fakeCall()">
+<i class="fas fa-phone"></i>
 Fake Call
 </div>
 
@@ -283,36 +328,40 @@ Fake Call
 </div>
 
 <div class="section" id="mapSection" style="display:none;">
-<h2><i class="fas fa-map"></i> Your Live Location</h2>
-<iframe id="mapFrame" width="100%" height="300" style="border-radius:20px;border:none;"></iframe>
-</div>
+<h2>Your Live Location</h2>
+<iframe id="mapFrame" width="100%" height="300"></iframe>
 
-<div class="section">
-<button class="credit-btn" onclick="toggleCredit()">CREDIT</button>
-<div class="credit-box" id="creditBox">
-<ul>
-<li>Creator : Kabya Saha</li>
-<li>AI Assistance : ChatGPT • DeepSeek</li>
-<li>Web Hosting : InfinityFree</li>
-<li>Date Created : 03/03/2026</li>
-</ul>
+<div class="map-buttons">
+<button class="open-btn" onclick="openInMaps()">Open in Google Maps</button>
+<button class="nav-btn" onclick="navigateNow()">Navigate</button>
 </div>
 </div>
 
-<div class="qr">
-<img src="https://images4.imagebam.com/54/e7/73/ME1B1XIM_o.jpg">
-</div>
-
-<footer>© 2026 All Rights Reserved.</footer>
+<footer style="text-align:center;margin-top:20px;">© 2026 All Rights Reserved.</footer>
 
 </div>
 
-<div class="popup" id="popup">Scroll Down To View Map</div>
-
+<!-- Xiaomi Fake Call Screen (Replaced UI & uses statusTime) -->
 <div class="fake-call-screen" id="fakeCallScreen">
-<div class="call-header">
-<h2>Mom 💗</h2>
-<p>Incoming Call...</p>
+
+<!-- Status bar with time element id="statusTime" -->
+<div class="status-bar">
+<div class="status-left"></div>
+<div class="status-right">
+<i class="fas fa-wifi"></i>
+<i class="fas fa-signal"></i>
+<div class="battery">
+<div class="battery-level"></div>
+</div>
+<span class="battery-text" id="statusTime">00:00</span>
+</div>
+</div>
+
+<div class="caller-top">
+<!-- Keep same avatar as before, but using placeholder icon as original -->
+<img src="https://images4.imagebam.com/5a/79/5d/ME1B1YG6_o.png" alt="Caller Avatar">
+<h2>Maa</h2>
+<p>Incoming Call</p>
 </div>
 
 <div class="call-actions">
@@ -323,19 +372,18 @@ Fake Call
 <i class="fas fa-phone"></i>
 </div>
 </div>
+
 </div>
 
 <script>
+let currentLat,currentLon;
+
+/* ======= Ringtone Link ======= */
+let ringtoneURL = "https://files.catbox.moe/tx8v8n.mp3";
+/* ============================= */
+
 function toggleTheme(){
 document.body.classList.toggle("night-mode");
-localStorage.setItem("theme",
-document.body.classList.contains("night-mode") ? "dark" : "light");
-}
-
-window.onload=function(){
-if(localStorage.getItem("theme")==="dark"){
-document.body.classList.add("night-mode");
-}
 }
 
 function quickCall(number){
@@ -344,48 +392,64 @@ window.location.href="tel:"+number;
 
 function getLocation(){
 if(navigator.geolocation){
-navigator.geolocation.getCurrentPosition(function(position){
-let lat = position.coords.latitude;
-let lon = position.coords.longitude;
-let mapURL = "https://www.google.com/maps?q=" + lat + "," + lon + "&output=embed&hl=en";
-document.getElementById("mapFrame").src = mapURL;
+navigator.geolocation.getCurrentPosition(function(pos){
+currentLat=pos.coords.latitude;
+currentLon=pos.coords.longitude;
+
+let mapURL="https://www.google.com/maps?q="+currentLat+","+currentLon+"&output=embed&z=17";
+document.getElementById("mapFrame").src=mapURL;
 document.getElementById("mapSection").style.display="block";
-document.getElementById("popup").style.display="block";
-setTimeout(()=>{document.getElementById("popup").style.display="none";},3000);
+document.getElementById("mapSection").scrollIntoView({behavior:"smooth"});
 });
 }
+}
+
+function openInMaps(){
+window.open("https://www.google.com/maps?q="+currentLat+","+currentLon);
+}
+
+function navigateNow(){
+window.open("https://www.google.com/maps/dir/?api=1&destination="+currentLat+","+currentLon);
 }
 
 function shareLocation(){
-if(navigator.geolocation){
-navigator.geolocation.getCurrentPosition(function(position){
-let lat = position.coords.latitude;
-let lon = position.coords.longitude;
-let message = "I need help! My location: https://www.google.com/maps?q=" + lat + "," + lon;
-window.open("https://wa.me/?text=" + encodeURIComponent(message));
-});
+if(currentLat && currentLon){
+let msg="I need help! My location: https://www.google.com/maps?q="+currentLat+","+currentLon;
+window.open("https://wa.me/?text="+encodeURIComponent(msg));
 }
 }
 
+/* Fake Call */
+let fakeCallInterval;
 function fakeCall(){
-const screen=document.getElementById("fakeCallScreen");
-screen.style.display="flex";
-const ringtone=new Audio("https://actions.google.com/sounds/v1/alarms/phone_alerts_and_rings.ogg");
-ringtone.loop=true;
-ringtone.play();
-window.currentRingtone=ringtone;
+document.getElementById("fakeCallScreen").style.display="flex";
+
+// ringtone
+const ringtone = new Audio(ringtoneURL);
+ringtone.loop = true;
+ringtone.play().catch(e=>console.log("autoplay prevented? user gesture needed"));
+window.currentRingtone = ringtone;
+
+// Start updating the status bar time using the REPLACED function
+updateTime();
+fakeCallInterval = setInterval(updateTime,1000);
+}
+
+/* REPLACED updateTime function: exactly as requested */
+function updateTime(){
+let now = new Date();
+let hours = now.getHours().toString().padStart(2,'0');
+let minutes = now.getMinutes().toString().padStart(2,'0');
+document.getElementById("statusTime").innerText = hours + ":" + minutes;
 }
 
 function closeFakeCall(){
 document.getElementById("fakeCallScreen").style.display="none";
 if(window.currentRingtone){
 window.currentRingtone.pause();
+window.currentRingtone.currentTime = 0;
 }
-}
-
-function toggleCredit(){
-let box=document.getElementById("creditBox");
-box.style.display = box.style.display==="block"?"none":"block";
+clearInterval(fakeCallInterval);
 }
 </script>
 
