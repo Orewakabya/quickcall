@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NariGuard BD</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Baloo Da 2',cursive;
+}
+
+body{
+background:#fff0f6;
+min-height:100vh;
+padding:24px;
+color:#831843;
+transition:0.3s;
+display:flex;
+flex-direction:column;
+}
+
+body.night-mode{
+background:#2a0e1a;
+color:#ffe4f2;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+flex:1;
+}
+
+.logo-area{
+text-align:center;
+margin-bottom:30px;
+}
+
+.logo-area h1{
+font-size:42px;
+font-weight:800;
+background:linear-gradient(145deg,#ec4899,#db2777);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.theme-btn{
+background:white;
+border:1px solid #fbcfe8;
+padding:10px 25px;
+border-radius:40px;
+cursor:pointer;
+margin-top:15px;
+font-weight:600;
+}
+
+body.night-mode .theme-btn{
+background:#3f1630;
+color:white;
+border-color:#db2777;
+}
+
+.section{
+background:white;
+padding:30px;
+border-radius:25px;
+box-shadow:0 8px 20px rgba(236,72,153,0.15);
+margin-bottom:30px;
+}
+
+body.night-mode .section{
+background:#3f1630;
+}
+
+.section h2{
+margin-bottom:20px;
+font-size:24px;
+color:#db2777;
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.service-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:20px;
+}
+
+.service-card{
+background:#fce7f3;
+border-radius:20px;
+padding:25px 10px;
+text-align:center;
+cursor:pointer;
+font-weight:600;
+transition:0.2s;
+border:1px solid #fbcfe8;
+}
+
+.service-card:hover{
+transform:translateY(-5px);
+background:#fbcfe8;
+}
+
+body.night-mode .service-card{
+background:#521b3c;
+border-color:#db2777;
+}
+
+.service-card i{
+font-size:38px;
+color:#ec4899;
+margin-bottom:10px;
+}
+
+.fake-call-screen{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#000;
+color:white;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+z-index:999;
+display:none;
+}
+
+.fake-call-screen button{
+background:#ec4899;
+border:none;
+padding:12px 25px;
+border-radius:30px;
+color:white;
+cursor:pointer;
+font-size:16px;
+}
+
+footer{
+text-align:center;
+margin-top:40px;
+font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo-area">
+<h1>💗 NariGuard BD</h1>
+<p>Women Safety Platform - Bangladesh</p>
+<button class="theme-btn" onclick="toggleTheme()">DAY / NIGHT</button>
+</div>
+
+<div class="section">
+<h2><i class="fas fa-bolt"></i> Emergency Services</h2>
+
+<div class="service-grid">
+
+<div class="service-card" onclick="quickCall('999')">
+<i class="fas fa-phone-volume"></i>
+National Emergency (999)
+</div>
+
+<div class="service-card" onclick="quickCall('109')">
+<i class="fas fa-heart"></i>
+Women Helpline (109)
+</div>
+
+<div class="service-card" onclick="quickCall('10921')">
+<i class="fas fa-hands-helping"></i>
+Violence Support (10921)
+</div>
+
+<div class="service-card" onclick="getLocation()">
+<i class="fas fa-map-marker-alt"></i>
+Show Live Location
+</div>
+
+<div class="service-card" onclick="shareLocation()">
+<i class="fab fa-whatsapp"></i>
+Share via WhatsApp
+</div>
+
+<div class="service-card" onclick="fakeCall()">
+<i class="fas fa-user-secret"></i>
+Fake Call
+</div>
+
+</div>
+</div>
+
+<div class="section" id="mapSection" style="display:none;">
+<h2><i class="fas fa-map"></i> Your Live Location</h2>
+<iframe id="mapFrame" width="100%" height="300" style="border-radius:20px;border:none;"></iframe>
+</div>
+
+<div class="section">
+<h2><i class="fas fa-book"></i> Safety Tips</h2>
+<ul>
+<li>Always share your live location with trusted person.</li>
+<li>Keep emergency numbers in speed dial.</li>
+<li>Trust your instincts.</li>
+<li>Avoid isolated places at night.</li>
+<li>Use public transport tracking when possible.</li>
+</ul>
+</div>
+
+<footer>
+© 2026 NariGuard BD | Stay Safe 💗
+</footer>
+
+</div>
+
+<div class="fake-call-screen" id="fakeCallScreen">
+<h1>📞 Incoming Call...</h1>
+<p>Mom 💗</p>
+<br>
+<button onclick="closeFakeCall()">End Call</button>
+</div>
+
+<script>
+function toggleTheme(){
+document.body.classList.toggle("night-mode");
+localStorage.setItem("theme",
+document.body.classList.contains("night-mode") ? "dark" : "light");
+}
+
+window.onload=function(){
+if(localStorage.getItem("theme")==="dark"){
+document.body.classList.add("night-mode");
+}
+}
+
+function quickCall(number){
+window.location.href="tel:"+number;
+}
+
+function getLocation(){
+if(navigator.geolocation){
+navigator.geolocation.getCurrentPosition(function(position){
+let lat = position.coords.latitude;
+let lon = position.coords.longitude;
+let mapURL = "https://www.google.com/maps?q=" + lat + "," + lon + "&output=embed";
+document.getElementById("mapFrame").src = mapURL;
+document.getElementById("mapSection").style.display="block";
+});
+}else{
+alert("Geolocation not supported");
+}
+}
+
+function shareLocation(){
+if(navigator.geolocation){
+navigator.geolocation.getCurrentPosition(function(position){
+let lat = position.coords.latitude;
+let lon = position.coords.longitude;
+let message = "I need help! My location: https://www.google.com/maps?q=" + lat + "," + lon;
+window.open("https://wa.me/?text=" + encodeURIComponent(message));
+});
+}
+}
+
+function fakeCall(){
+const screen=document.getElementById("fakeCallScreen");
+screen.style.display="flex";
+const ringtone=new Audio("https://actions.google.com/sounds/v1/alarms/phone_alerts_and_rings.ogg");
+ringtone.loop=true;
+ringtone.play();
+window.currentRingtone=ringtone;
+}
+
+function closeFakeCall(){
+document.getElementById("fakeCallScreen").style.display="none";
+if(window.currentRingtone){
+window.currentRingtone.pause();
+}
+}
+</script>
+
+</body>
+</html>
