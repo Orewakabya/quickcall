@@ -1043,10 +1043,8 @@
     let hideTimeout;
 
     function showToast({ title = 'Attention', message = '', iconType = 'attention', duration = 6000 }) {
-      // Clear existing timeout
       if (hideTimeout) clearTimeout(hideTimeout);
       
-      // Set icon
       toastIconDiv.className = 'toast-icon';
       toastProgress.className = 'toast-progress-bar';
       
@@ -1067,20 +1065,17 @@
       toastTitle.innerText = title;
       toastMessage.innerText = message;
 
-      // Reset progress animation
       toastProgress.style.animation = 'none';
       toastProgress.offsetHeight;
       toastProgress.style.animation = `progressShrink ${duration/1000}s linear forwards`;
 
       toast.classList.add('show');
 
-      // Auto hide after duration
       hideTimeout = setTimeout(() => {
         toast.classList.remove('show');
       }, duration);
     }
 
-    // Manual close
     toastClose.addEventListener('click', function() {
       toast.classList.remove('show');
       if (hideTimeout) clearTimeout(hideTimeout);
@@ -1198,7 +1193,7 @@
       }
     }
 
-    // ========== SOS FUNCTION (fixed: send to ALL contacts, no country code assumption) ==========
+    // ========== SOS FUNCTION — fixes for Bangladesh numbers & WhatsApp app redirect ==========
     function triggerSOS() {
       if (emergencyContacts.length === 0) {
         showToast({ 
@@ -1212,39 +1207,72 @@
       
       showToast({ 
         title: 'SOS Activated', 
-        message: `Sending emergency messages to ${emergencyContacts.length} contact(s).`, 
+        message: `Opening WhatsApp for ${emergencyContacts.length} contact(s).`, 
         iconType: 'attention',
-        duration: 6000 
+        duration: 5000 
       });
       
-      // Function to send WhatsApp to all contacts (without stripping + or country code)
-      const sendToAll = (locationLink) => {
+      // Helper to format BD numbers: if it starts with 01 and length 11, add +88 prefix
+      const formatNumberForWhatsApp = (raw) => {
+        let cleaned = raw.replace(/[\s\-\(\)]/g, ''); // remove spaces, dashes, brackets
+        
+        // Bangladesh specific: if 11 digits and starts with 01, assume BD and add +88
+        if (/^01\d{9}$/.test(cleaned)) {
+          return '+88' + cleaned;  // e.g., 01711374310 → +8801711374310
+        }
+        // If already has +, keep as is
+        if (cleaned.startsWith('+')) return cleaned;
+        // Otherwise just return cleaned (might already be international)
+        return cleaned;
+      };
+
+      // Function to open WhatsApp app via intent/scheme
+      const openWhatsApp = (number, message) => {
+        // Format number properly
+        const fullNumber = formatNumberForWhatsApp(number);
+        // Use WhatsApp intent URI (works on Android/iOS to open app)
+        const intentUrl = `whatsapp://send?phone=${encodeURIComponent(fullNumber)}&text=${encodeURIComponent(message)}`;
+        // Fallback for devices that don't have whatsapp:// – try web, but we focus on app
+        window.location.href = intentUrl;
+        
+        // Backup: if fails to open app, user can tap again; we show toast
+        setTimeout(() => {
+          showToast({ 
+            title: 'WhatsApp App', 
+            message: 'If WhatsApp did not open, tap again or install WhatsApp.', 
+            iconType: 'warning',
+            duration: 4000 
+          });
+        }, 500);
+      };
+
+      // Build message and send to all contacts one by one (user will see multiple tabs/prompts)
+      const sendToAllContacts = (locationLink) => {
         emergencyContacts.forEach(contact => {
-          let rawNumber = contact.number.trim();
-          // Remove only spaces, dashes — keep + and country code intact
-          let cleanNumber = rawNumber.replace(/[\s\-\(\)]/g, '');
           let msg = `⛔ EMERGENCY SOS ALERT from Quick Call!\n\n• Status: DANGER - Need immediate help!\n• Recipient: ${contact.name}\n• Time: ${new Date().toLocaleTimeString()}`;
           if (locationLink) msg += `\n• Live Location: ${locationLink}`;
           msg += `\n\nPlease track me and call for help!`;
           
-          window.open(`https://wa.me/${cleanNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+          // Open WhatsApp app for each contact (sequential)
+          openWhatsApp(contact.number, msg);
         });
       };
 
+      // Get location if possible, then send
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           function(pos) {
             const lat = pos.coords.latitude;
             const lon = pos.coords.longitude;
             const locationLink = `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;
-            sendToAll(locationLink);
+            sendToAllContacts(locationLink);
           },
           function() {
-            sendToAll(null); // send without location
+            sendToAllContacts(null); // send without location
           }
         );
       } else {
-        sendToAll(null);
+        sendToAllContacts(null);
       }
     }
 
@@ -1365,7 +1393,7 @@
       }
     }
 
-    // ========== FAKE CALL (REAL PHONE UI, no popup toast) ==========
+    // ========== FAKE CALL ==========
     function updateCallStatusTime() {
       const now = new Date();
       let hours = now.getHours();
@@ -1375,7 +1403,6 @@
       document.getElementById('callStatusTime').innerText = `${hours}:${minutes} ${ampm}`;
     }
     function fakeCall() {
-      // NO TOAST for fake call (removed)
       document.getElementById('fakeCallScreen').style.display = 'flex';
       updateCallStatusTime();
       if (fakeCallInterval) clearInterval(fakeCallInterval);
@@ -1412,7 +1439,7 @@
 
     document.getElementById('cardWhatsapp').addEventListener('click', shareLocation);
 
-    document.getElementById('cardFake').addEventListener('click', fakeCall);   // no popup inside
+    document.getElementById('cardFake').addEventListener('click', fakeCall);
 
     document.getElementById('cardSiren').addEventListener('click', startSiren);
 
@@ -1434,7 +1461,7 @@
       });
     });
 
-    // ========== CONTACTS CARD: scroll to very top (no popup) ==========
+    // Contacts card scrolls to top (contacts section)
     document.getElementById('cardContacts').addEventListener('click', function() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
@@ -1473,18 +1500,15 @@
       }
     });
 
-    // Close fake call with escape
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape' && document.getElementById('fakeCallScreen').style.display === 'flex') {
         closeFakeCall();
       }
     });
 
-    // Initialize
     mapSection.style.display = 'none';
     displayContacts();
 
-    // Welcome toast (optional)
     window.addEventListener('load', function() {
       if (emergencyContacts.length > 0) {
         showToast({ 
