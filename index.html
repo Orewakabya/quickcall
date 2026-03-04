@@ -1419,22 +1419,15 @@
       clearInterval(fakeCallInterval); fakeCallInterval = null;
     };
 
-    // ========== EVENT LISTENERS ==========
-    document.getElementById('sosPanicBtn').addEventListener('click', triggerSOS);
-
-    document.getElementById('cardEmergency').addEventListener('click', function() {
-      showToast({ 
-        title: 'Emergency Call', 
-        message: 'Calling emergency services.', 
-        iconType: 'success',
-        duration: 6000 
-      });
-      if (emergencyContacts.length > 0) {
-        quickCall(emergencyContacts[0].number);
-      } else {
-        quickCall('999');
-      }
-    });
+  document.getElementById('cardEmergency').addEventListener('click', function() {
+  showToast({ 
+    title: 'Urgent Call', 
+    message: 'Calling emergency services.', 
+    iconType: 'success',
+    duration: 6000 
+  });
+  quickCall('999');
+});
 
     document.getElementById('cardLocation').addEventListener('click', getLocation);
 
