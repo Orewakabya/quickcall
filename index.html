@@ -201,9 +201,9 @@
     }
 
    
-    /* --- SOS BUTTON (same style, repositioned later via DOM) --- */
+    /* --- SOS BUTTON --- */
     .sos-button {
-      background: rgba(220, 38, 38, 0.2);        /* transparent red */
+      background: rgba(220, 38, 38, 0.2);
       border: 2px solid rgba(220, 38, 38, 0.7);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
@@ -430,6 +430,267 @@
     .delete-contact:hover {
       transform: scale(1.2) rotate(5deg);
       color: #ef4444;
+    }
+
+    /* ===== PROFESSIONAL REDESIGNED SAVED CONTACTS BOX ===== */
+    .saved-contacts-card {
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+      border-radius: 32px;
+      box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(37, 99, 235, 0.1) inset;
+      padding: 0;
+      margin: 24px 0 16px;
+      animation: slideUpFade 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+      display: none;
+      overflow: hidden;
+      border: 1px solid rgba(37, 99, 235, 0.2);
+    }
+    
+    .saved-contacts-card.show {
+      display: block;
+    }
+    
+    .night-mode .saved-contacts-card {
+      background: linear-gradient(135deg, #263952 0%, #1e2f44 100%);
+      border-color: #4b6fa0;
+      box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.5);
+    }
+    
+    .card-header {
+      background: linear-gradient(90deg, #2563eb, #1d4ed8);
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .night-mode .card-header {
+      background: linear-gradient(90deg, #1e3a8a, #1e2f44);
+    }
+    
+    .card-header i {
+      font-size: 28px;
+      color: white;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    }
+    
+    .card-header h3 {
+      font-size: 24px;
+      font-weight: 700;
+      color: white;
+      letter-spacing: 0.3px;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+      flex: 1;
+    }
+    
+    .header-badge {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(4px);
+      padding: 6px 14px;
+      border-radius: 40px;
+      font-size: 14px;
+      font-weight: 600;
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .card-body {
+      padding: 20px 24px;
+    }
+    
+    .contacts-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 260px;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+    
+    .contacts-grid::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .contacts-grid::-webkit-scrollbar-track {
+      background: #e2e8f0;
+      border-radius: 10px;
+    }
+    
+    .contacts-grid::-webkit-scrollbar-thumb {
+      background: #94a3b8;
+      border-radius: 10px;
+    }
+    
+    .night-mode .contacts-grid::-webkit-scrollbar-track {
+      background: #334155;
+    }
+    
+    .night-mode .contacts-grid::-webkit-scrollbar-thumb {
+      background: #5f7d9c;
+    }
+    
+    .contact-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      background: rgba(37, 99, 235, 0.04);
+      border-radius: 20px;
+      border: 1px solid rgba(37, 99, 235, 0.1);
+      transition: all 0.2s ease;
+    }
+    
+    .contact-row:hover {
+      background: rgba(37, 99, 235, 0.08);
+      transform: translateX(4px);
+      border-color: rgba(37, 99, 235, 0.3);
+    }
+    
+    .night-mode .contact-row {
+      background: rgba(75, 111, 160, 0.15);
+      border-color: #4b6fa0;
+    }
+    
+    .night-mode .contact-row:hover {
+      background: rgba(75, 111, 160, 0.25);
+    }
+    
+    .contact-avatar {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 20px;
+      font-weight: 700;
+      box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
+      flex-shrink: 0;
+    }
+    
+    .night-mode .contact-avatar {
+      background: linear-gradient(135deg, #3b5688, #2a3f60);
+    }
+    
+    .contact-details {
+      flex: 1;
+    }
+    
+    .contact-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1e293b;
+      line-height: 1.3;
+    }
+    
+    .night-mode .contact-name {
+      color: #f1f5f9;
+    }
+    
+    .contact-number {
+      font-size: 15px;
+      color: #4b5563;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .night-mode .contact-number {
+      color: #a0b3cc;
+    }
+    
+    .contact-number i {
+      font-size: 12px;
+      color: #2563eb;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      background: rgba(0,0,0,0.02);
+      border-radius: 24px;
+    }
+    
+    .empty-state i {
+      font-size: 48px;
+      color: #94a3b8;
+      margin-bottom: 12px;
+      opacity: 0.5;
+    }
+    
+    .empty-state p {
+      font-size: 18px;
+      color: #64748b;
+      font-weight: 500;
+    }
+    
+    .night-mode .empty-state {
+      background: rgba(255,255,255,0.03);
+    }
+    
+    .night-mode .empty-state i,
+    .night-mode .empty-state p {
+      color: #a0b3cc;
+    }
+    
+    .card-footer {
+      background: rgba(0,0,0,0.02);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #e2e8f0;
+      font-size: 14px;
+      color: #64748b;
+    }
+    
+    .night-mode .card-footer {
+      background: rgba(0,0,0,0.2);
+      border-top-color: #4b6fa0;
+      color: #a0b3cc;
+    }
+    
+    .footer-timer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .footer-timer i {
+      color: #2563eb;
+    }
+    
+    .timer-bar {
+      width: 60px;
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    
+    .timer-fill {
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, #2563eb, #1d4ed8);
+      animation: shrinkWidth 8s linear forwards;
+    }
+    
+    @keyframes slideUpFade {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes shrinkWidth {
+      from { width: 100%; }
+      to { width: 0%; }
     }
 
     /* map section */
@@ -709,23 +970,22 @@
       box-shadow: 0 15px 30px rgba(0,0,0,0.1);
     }
 
-     /* ========== FAKE CALL SCREEN — REDESIGNED LIKE REAL PHONE UI (BUTTONS AT BOTTOM) ========== */
+     /* ========== FAKE CALL SCREEN ========== */
     .fake-call-screen {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: #0c0c0e;  /* deep black like iPhone lock screen */
+      background: #0c0c0e;
       display: none;
       flex-direction: column;
       z-index: 9999;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important; /* system font for call */
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
       color: white;
       animation: fadeIn 0.25s ease-out;
     }
 
-    /* status bar – real time, icons, battery */
     .call-status-bar {
       display: flex;
       justify-content: space-between;
@@ -774,13 +1034,12 @@
       border-radius: 1px;
     }
 
-    /* caller content – proper spacing, system fonts */
     .caller-container {
       flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start; /* changed to push buttons down */
+      justify-content: flex-start;
       padding: 0 20px;
       margin-top: 15vh; 
     }
@@ -795,7 +1054,7 @@
     }
     .caller-name {
       font-size: 42px;
-      font-weight: 350;          /* thin, like iOS */
+      font-weight: 350;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       letter-spacing: 0.5px;
       margin-bottom: 8px;
@@ -808,13 +1067,12 @@
       opacity: 0.7;
       margin-bottom: 60px;       
     }
-    /* action buttons: repositioned to bottom with extra space */
     .call-actions-row {
       display: flex;
-      gap: 70px;                 /* increased gap */
+      gap: 70px;
       align-items: center;
       justify-content: center;
-      margin-top: auto;           /* push to bottom */
+      margin-top: auto;
       margin-bottom: 60px;
     }
     .call-btn-real {
@@ -833,14 +1091,14 @@
       box-shadow: 0 15px 30px rgba(0,0,0,0.6);
     }
     .call-btn-real.decline {
-      background: #ff3b30;       /* bright red */
+      background: #ff3b30;
       transform: rotate(135deg);
     }
     .call-btn-real.decline i {
-      transform: rotate(45deg);   /* keep icon upright */
+      transform: rotate(45deg);
     }
     .call-btn-real.accept {
-      background: #30b158;       /* green */
+      background: #30b158;
     }
     .call-btn-real:hover {
       transform: scale(1.12);
@@ -859,7 +1117,6 @@
       padding-bottom: 30px;
     }
 
-    /* keep all original keyframes */
     @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
   </style>
 </head>
@@ -878,7 +1135,7 @@
     </div>
   </div>
 
-  <!-- Contacts Management Section (moved above SOS) -->
+  <!-- Contacts Management Section -->
   <div class="section" id="contactsSection">
     <h2><i class="fas fa-address-book"></i> Emergency Contacts</h2>
     <div class="contacts-section">
@@ -891,7 +1148,7 @@
     </div>
   </div>
 
-  <!-- SOS PANIC BUTTON (repositioned under contacts) -->
+  <!-- SOS PANIC BUTTON -->
   <button class="sos-button" id="sosPanicBtn">
     SOS
   </button>
@@ -930,6 +1187,29 @@
       <div class="service-card" id="cardContacts">
         <i class="fas fa-users"></i>
         My Contacts
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFESSIONALLY REDESIGNED SAVED CONTACTS CARD -->
+  <div class="saved-contacts-card" id="savedContactsCard">
+    <div class="card-header">
+      <i class="fas fa-address-card"></i>
+      <h3>Saved Contacts</h3>
+      <span class="header-badge" id="contactCountBadge">0</span>
+    </div>
+    <div class="card-body">
+      <div class="contacts-grid" id="savedContactsGrid">
+        <!-- Contacts will be populated dynamically -->
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="footer-timer">
+        <i class="fas fa-clock"></i>
+        <span>Auto-closing in 8s</span>
+      </div>
+      <div class="timer-bar">
+        <div class="timer-fill"></div>
       </div>
     </div>
   </div>
@@ -993,7 +1273,7 @@
   </div>
 </div>
 
-<!-- FAKE CALL SCREEN — redesigned with real phone UI, buttons at bottom with more gap -->
+<!-- FAKE CALL SCREEN -->
 <div class="fake-call-screen" id="fakeCallScreen">
   <div class="call-status-bar">
     <div class="status-left" id="callStatusTime">9:41</div>
@@ -1089,16 +1369,21 @@
     let sirenInterval = null;
     let fakeCallInterval = null;
     let currentRingtone = null;
+    let contactsCardTimeout = null;
     
     const mapSection = document.getElementById('mapSection');
     const mapFrame = document.getElementById('mapFrame');
     const sirenSection = document.getElementById('sirenSection');
     const ringtoneURL = "https://files.catbox.moe/tx8v8n.mp3";
+    const savedContactsCard = document.getElementById('savedContactsCard');
+    const savedContactsGrid = document.getElementById('savedContactsGrid');
+    const contactCountBadge = document.getElementById('contactCountBadge');
 
     // ========== CONTACTS MANAGEMENT ==========
     function saveContacts() {
       localStorage.setItem('emergencyContacts', JSON.stringify(emergencyContacts));
       displayContacts();
+      updateContactCountBadge();
     }
 
     function displayContacts() {
@@ -1154,6 +1439,11 @@
       }
     });
 
+    // Update contact count badge
+    function updateContactCountBadge() {
+      contactCountBadge.textContent = emergencyContacts.length;
+    }
+
     // ========== LOCATION FUNCTIONS ==========
     function getLocation(callback) {
       if (navigator.geolocation) {
@@ -1194,7 +1484,7 @@
       }
     }
 
-    // ========== SOS FUNCTION — fixes for Bangladesh numbers & WhatsApp app redirect ==========
+    // ========== SOS FUNCTION ==========
     function triggerSOS() {
       if (emergencyContacts.length === 0) {
         showToast({ 
@@ -1208,58 +1498,44 @@
       
       showToast({ 
         title: 'SOS Activated', 
-        message: `Opening WhatsApp.`, 
-        iconType: 'success',
+        message: `Opening WhatsApp for ${emergencyContacts.length} contact(s).`, 
+        iconType: 'attention',
         duration: 5000 
       });
       
-      // Helper to format BD numbers: if it starts with 01 and length 11, add +88 prefix
       const formatNumberForWhatsApp = (raw) => {
-        let cleaned = raw.replace(/[\s\-\(\)]/g, ''); // remove spaces, dashes, brackets
-        
-        // Bangladesh specific: if 11 digits and starts with 01, assume BD and add +88
+        let cleaned = raw.replace(/[\s\-\(\)]/g, '');
         if (/^01\d{9}$/.test(cleaned)) {
-          return '+88' + cleaned;  // e.g., 01711374310 → +8801711374310
+          return '+88' + cleaned;
         }
-        // If already has +, keep as is
         if (cleaned.startsWith('+')) return cleaned;
-        // Otherwise just return cleaned (might already be international)
         return cleaned;
       };
 
-      // Function to open WhatsApp app via intent/scheme
       const openWhatsApp = (number, message) => {
-        // Format number properly
         const fullNumber = formatNumberForWhatsApp(number);
-        // Use WhatsApp intent URI (works on Android/iOS to open app)
         const intentUrl = `whatsapp://send?phone=${encodeURIComponent(fullNumber)}&text=${encodeURIComponent(message)}`;
-        // Fallback for devices that don't have whatsapp:// – try web, but we focus on app
         window.location.href = intentUrl;
         
-        // Backup: if fails to open app, user can tap again; we show toast
         setTimeout(() => {
           showToast({ 
             title: 'WhatsApp App', 
-            message: 'If WhatsApp did not open then tap again or install WhatsApp.', 
+            message: 'If WhatsApp did not open, tap again or install WhatsApp.', 
             iconType: 'warning',
             duration: 4000 
           });
         }, 500);
       };
 
-      // Build message and send to all contacts one by one (user will see multiple tabs/prompts)
       const sendToAllContacts = (locationLink) => {
         emergencyContacts.forEach(contact => {
           let msg = `⛔ EMERGENCY SOS ALERT from Quick Call!\n\n• Status: DANGER - Need immediate help!\n• Recipient: ${contact.name}\n• Time: ${new Date().toLocaleTimeString()}`;
           if (locationLink) msg += `\n• Live Location: ${locationLink}`;
           msg += `\n\nPlease track me and call for help!`;
-          
-          // Open WhatsApp app for each contact (sequential)
           openWhatsApp(contact.number, msg);
         });
       };
 
-      // Get location if possible, then send
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           function(pos) {
@@ -1269,7 +1545,7 @@
             sendToAllContacts(locationLink);
           },
           function() {
-            sendToAllContacts(null); // send without location
+            sendToAllContacts(null);
           }
         );
       } else {
@@ -1394,7 +1670,7 @@
       }
     }
 
-    // ========== FAKE CALL ==========
+    // ========== FAKE CALL (NO TOAST) ==========
     function updateCallStatusTime() {
       const now = new Date();
       let hours = now.getHours();
@@ -1403,7 +1679,9 @@
       hours = hours % 12 || 12;
       document.getElementById('callStatusTime').innerText = `${hours}:${minutes} ${ampm}`;
     }
+    
     function fakeCall() {
+      // NO TOAST - directly show fake call screen
       document.getElementById('fakeCallScreen').style.display = 'flex';
       updateCallStatusTime();
       if (fakeCallInterval) clearInterval(fakeCallInterval);
@@ -1413,52 +1691,100 @@
       ringtone.play().catch(e=>{});
       window.currentRingtone = ringtone;
     }
+    
     window.closeFakeCall = function() {
       document.getElementById('fakeCallScreen').style.display = 'none';
       if (window.currentRingtone) { window.currentRingtone.pause(); window.currentRingtone = null; }
       clearInterval(fakeCallInterval); fakeCallInterval = null;
     };
 
-  document.getElementById('cardEmergency').addEventListener('click', function() {
-  showToast({ 
-    title: 'Urgent Call', 
-    message: 'Calling emergency services.', 
-    iconType: 'success',
-    duration: 6000 
-  });
-  quickCall('999');
-});
+    // ========== SHOW SAVED CONTACTS CARD (PROFESSIONAL) ==========
+    function showSavedContactsCard() {
+      // Clear any existing timeout
+      if (contactsCardTimeout) {
+        clearTimeout(contactsCardTimeout);
+      }
+      
+      // Populate the saved contacts grid
+      if (emergencyContacts.length === 0) {
+        savedContactsGrid.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-address-book"></i>
+            <p>No saved contacts yet</p>
+          </div>
+        `;
+      } else {
+        savedContactsGrid.innerHTML = emergencyContacts.map((contact, index) => {
+          // Get first letter for avatar
+          const initial = contact.name.charAt(0).toUpperCase();
+          return `
+            <div class="contact-row">
+              <div class="contact-avatar">${initial}</div>
+              <div class="contact-details">
+                <div class="contact-name">${contact.name}</div>
+                <div class="contact-number">
+                  <i class="fas fa-phone-alt"></i>
+                  ${contact.number}
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+      
+      // Update badge
+      updateContactCountBadge();
+      
+      // Show the card
+      savedContactsCard.classList.add('show');
+      
+      // Scroll to card
+      savedContactsCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      
+      // Auto close after 8 seconds
+      contactsCardTimeout = setTimeout(() => {
+        savedContactsCard.classList.remove('show');
+        contactsCardTimeout = null;
+      }, 8000);
+    }
+
+    // ========== EVENT LISTENERS ==========
+    // URGENT CALL - NO TOAST
+    document.getElementById('cardEmergency').addEventListener('click', function() {
+      quickCall('999');
+    });
 
     document.getElementById('cardLocation').addEventListener('click', getLocation);
 
     document.getElementById('cardWhatsapp').addEventListener('click', shareLocation);
 
+    // FAKE CALL - NO TOAST
     document.getElementById('cardFake').addEventListener('click', fakeCall);
 
     document.getElementById('cardSiren').addEventListener('click', startSiren);
 
+    // FOLLOW ME - WITH TOAST (feature unavailable)
     document.getElementById('cardFollow').addEventListener('click', function() {
       showToast({ 
         title: 'Feature Unavailable!', 
         message: 'Follow Me will be added in the next update.', 
         iconType: 'warning',
-        duration: 6000 
+        duration: 3000 
       });
     });
 
+    // RECORD VIDEO - WITH TOAST (feature unavailable)
     document.getElementById('cardRecord').addEventListener('click', function() {
       showToast({ 
         title: 'Feature Unavailable!', 
         message: 'Video recording will be added in the next update.', 
         iconType: 'warning',
-        duration: 6000 
+        duration: 3000 
       });
     });
 
-    // Contacts card scrolls to top (contacts section)
-    document.getElementById('cardContacts').addEventListener('click', function() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    // Contacts card shows the professionally redesigned saved contacts card
+    document.getElementById('cardContacts').addEventListener('click', showSavedContactsCard);
 
     document.getElementById('sirenOn').addEventListener('click', startSiren);
     document.getElementById('sirenOff').addEventListener('click', stopSiren);
@@ -1478,8 +1804,10 @@
         getLocation();
       }
     });
-   // ========== SOS BUTTON EVENT LISTENER ==========
+    
+    // ========== SOS BUTTON EVENT LISTENER ==========
     document.getElementById('sosPanicBtn').addEventListener('click', triggerSOS);
+    
     // Credit popup
     const creditBtn = document.getElementById('creditToggle');
     const creditPopup = document.getElementById('creditPopup');
@@ -1503,12 +1831,13 @@
 
     mapSection.style.display = 'none';
     displayContacts();
+    updateContactCountBadge();
 
     window.addEventListener('load', function() {
       if (emergencyContacts.length > 0) {
         showToast({ 
-          title: 'Welcome Back!',
-                        message: 'Your safety companion is now active.', 
+          title: 'Welcome Back!', 
+          message: 'Your safety companion is now active.', 
           iconType: 'success',
           duration: 3000 
         });
