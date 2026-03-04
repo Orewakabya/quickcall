@@ -126,9 +126,15 @@
     }
 
     .beta-badge {
-      font-size: 14px; 
-      color: red; 
+      font-size: 14px;
+      color: #ef4444;
       margin-top: 3px;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.7; }
+      50% { opacity: 1; text-shadow: 0 0 5px rgba(239, 68, 68, 0.5); }
+      100% { opacity: 0.7; }
     }
 
     /* ----- section cards ----- */
@@ -141,6 +147,7 @@
       margin: 28px 0;
       animation: fadeInUp 0.5s ease-out;
       animation-fill-mode: both;
+      position: relative;
     }
 
     .section:nth-child(1) { animation-delay: 0.1s; }
@@ -200,6 +207,40 @@
       color: #b91c1c;
     }
 
+    /* Close button for sections */
+    .section-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(220, 38, 38, 0.1);
+      color: #dc2626;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(220, 38, 38, 0.2);
+      z-index: 10;
+    }
+
+    .section-close:hover {
+      background: #dc2626;
+      color: white;
+      transform: rotate(90deg);
+    }
+
+    .night-mode .section-close {
+      background: rgba(220, 38, 38, 0.2);
+      color: #ffb3b3;
+    }
+
+    .night-mode .section-close:hover {
+      background: #dc2626;
+      color: white;
+    }
    
     /* --- SOS BUTTON --- */
     .sos-button {
@@ -293,9 +334,9 @@
     .service-card .fa-whatsapp { color: #16a34a; background: rgba(22,163,74,0.1); }
     .service-card .fa-phone { color: #8b5cf6; background: rgba(139,92,246,0.1); }
     .service-card .fa-users { color: #f59e0b; background: rgba(245,158,11,0.1); }
-    .service-card .fa-video { color: #ec4899; background: rgba(236,72,153,0.1); }
+    .service-card .fa-shield-alt { color: #2563eb; background: rgba(37,99,235,0.1); }
     .service-card .fa-bell { color: #ef4444; background: rgba(239,68,68,0.1); }
-    .service-card .fa-map-marked-alt { color: #10b981; background: rgba(16,185,129,0.1); }
+    .service-card .fa-id-card { color: #8b5cf6; background: rgba(139,92,246,0.1); }
 
     /* Contacts Section */
     .contacts-section {
@@ -430,6 +471,182 @@
     .delete-contact:hover {
       transform: scale(1.2) rotate(5deg);
       color: #ef4444;
+    }
+
+    /* ===== POLICE STATION SECTION ===== */
+    #policeSection.section { display: none; }
+    
+    .police-loading {
+      text-align: center;
+      padding: 30px;
+    }
+    
+    .police-loading i {
+      font-size: 40px;
+      color: #2563eb;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .police-station-card {
+      background: rgba(37, 99, 235, 0.05);
+      border: 1px solid #bfdbfe;
+      border-radius: 20px;
+      padding: 15px;
+      margin-bottom: 15px;
+      transition: all 0.3s ease;
+    }
+    
+    .police-station-card:hover {
+      transform: translateX(5px);
+      background: rgba(37, 99, 235, 0.1);
+    }
+    
+    .police-station-name {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #2563eb;
+    }
+    
+    .police-station-distance {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 8px;
+    }
+    
+    .police-station-address {
+      font-size: 14px;
+      color: #4b5563;
+      margin-bottom: 12px;
+    }
+    
+    .police-station-actions {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .police-action-btn {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .police-action-btn.directions {
+      background: #16a34a;
+      color: white;
+    }
+    
+    .police-action-btn.call {
+      background: #2563eb;
+      color: white;
+    }
+    
+    .police-action-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.1);
+    }
+
+    /* ===== YOUR INFO SECTION ===== */
+    #infoSection.section { display: none; }
+    
+    .info-form {
+      margin-top: 20px;
+    }
+    
+    .info-field {
+      margin-bottom: 15px;
+    }
+    
+    .info-field label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #4b5563;
+    }
+    
+    .night-mode .info-field label {
+      color: #cbd5e1;
+    }
+    
+    .info-field input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #bfdbfe;
+      border-radius: 20px;
+      font-size: 16px;
+      background: white;
+    }
+    
+    .night-mode .info-field input {
+      background: #2b3a52;
+      border-color: #4b6fa0;
+      color: white;
+    }
+    
+    .save-info-btn {
+      background: #8b5cf6;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      padding: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+    
+    .save-info-btn:hover {
+      background: #7c3aed;
+      transform: translateY(-2px);
+    }
+    
+    .info-display-card {
+      background: rgba(139, 92, 246, 0.1);
+      border: 2px solid #8b5cf6;
+      border-radius: 28px;
+      padding: 25px;
+      margin-top: 20px;
+      animation: slideUpFade 0.4s ease-out;
+    }
+    
+    .info-display-item {
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed #8b5cf6;
+    }
+    
+    .info-display-label {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 5px;
+    }
+    
+    .info-display-value {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1e293b;
+    }
+    
+    .night-mode .info-display-value {
+      color: #f1f5f9;
+    }
+    
+    .info-timer {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+      color: #8b5cf6;
     }
 
     /* ===== PROFESSIONAL REDESIGNED SAVED CONTACTS BOX ===== */
@@ -1126,7 +1343,7 @@
   <div class="top-header">
     <div class="logo-area">
       <h1>QUICK CALL</h1>
-      <div class="beta-badge">Under Maintenance</div>    
+      <div class="beta-badge">Clearing browser history will reset your information</div>    
     </div>
     <div class="theme-toggle">
       <button class="theme-btn" id="themeBtn">
@@ -1176,19 +1393,67 @@
         <i class="fas fa-bell"></i>
         Siren Alarm
       </div>
-      <div class="service-card" id="cardFollow">
-        <i class="fas fa-map-marked-alt"></i>
-        Follow Me
+      <!-- Police Station Feature -->
+      <div class="service-card" id="cardPolice">
+        <i class="fas fa-shield-alt"></i>
+        Police
       </div>
-      <div class="service-card" id="cardRecord">
-        <i class="fas fa-video"></i>
-        Record Video
+      <!-- Your Info Feature -->
+      <div class="service-card" id="cardInfo">
+        <i class="fas fa-id-card"></i>
+        Your Info
       </div>
       <div class="service-card" id="cardContacts">
         <i class="fas fa-users"></i>
         My Contacts
       </div>
     </div>
+  </div>
+
+  <!-- Police Station Section with Close Button -->
+  <div class="section" id="policeSection">
+    <div class="section-close" id="closePoliceBtn">
+      <i class="fas fa-times"></i>
+    </div>
+    <h2><i class="fas fa-map-pin" style="color: #2563eb;"></i> Nearest Police Stations</h2>
+    <div id="policeLoading" class="police-loading">
+      <i class="fas fa-circle-notch"></i>
+      <p style="margin-top: 15px;">Finding nearest police stations...</p>
+    </div>
+    <div id="policeStationsList" style="display: none;"></div>
+    <div id="policeError" style="text-align: center; padding: 30px; color: #dc2626; display: none;">
+      <i class="fas fa-exclamation-triangle" style="font-size: 40px;"></i>
+      <p style="margin-top: 15px;">Could not find police stations. Please try again.</p>
+    </div>
+    <div class="map-buttons" style="margin-top: 20px;">
+      <button class="open-btn" id="refreshPoliceBtn"><i class="fas fa-sync-alt"></i> Refresh</button>
+      <button class="nav-btn" id="openPoliceMapsBtn"><i class="fas fa-map"></i> Open Maps</button>
+    </div>
+  </div>
+
+  <!-- Your Info Section -->
+  <div class="section" id="infoSection">
+    <h2><i class="fas fa-id-card"></i> Your Information</h2>
+    <div id="infoForm" class="info-form">
+      <div class="info-field">
+        <label>Full Name</label>
+        <input type="text" id="infoName" placeholder="Enter your full name">
+      </div>
+      <div class="info-field">
+        <label>Home Address</label>
+        <input type="text" id="infoAddress" placeholder="Enter your home address">
+      </div>
+      <div class="info-field">
+        <label>Blood Group</label>
+        <input type="text" id="infoBlood" placeholder="e.g., O+">
+      </div>
+      <div class="info-field">
+        <label>Emergency Contact</label>
+        <input type="tel" id="infoEmergency" placeholder="Phone number">
+      </div>
+      <button class="save-info-btn" id="saveInfoBtn"><i class="fas fa-save"></i> Save Information</button>
+    </div>
+    <div id="infoDisplay" style="display: none;"></div>
   </div>
 
   <!-- PROFESSIONALLY REDESIGNED SAVED CONTACTS CARD -->
@@ -1365,12 +1630,14 @@
     // ========== STATE ==========
     let currentLat = null, currentLon = null;
     let emergencyContacts = JSON.parse(localStorage.getItem('emergencyContacts')) || [];
+    let userInfo = JSON.parse(localStorage.getItem('userInfo')) || null;
     let sirenAudio = null;
     let sirenInterval = null;
     let fakeCallInterval = null;
     let currentRingtone = null;
     let contactsCardTimeout = null;
-    let audioContext = null; // Store audio context globally
+    let infoCardTimeout = null;
+    let audioContext = null;
     
     const mapSection = document.getElementById('mapSection');
     const mapFrame = document.getElementById('mapFrame');
@@ -1379,6 +1646,21 @@
     const savedContactsCard = document.getElementById('savedContactsCard');
     const savedContactsGrid = document.getElementById('savedContactsGrid');
     const contactCountBadge = document.getElementById('contactCountBadge');
+    
+    // New sections
+    const policeSection = document.getElementById('policeSection');
+    const policeLoading = document.getElementById('policeLoading');
+    const policeStationsList = document.getElementById('policeStationsList');
+    const policeError = document.getElementById('policeError');
+    const infoSection = document.getElementById('infoSection');
+    const infoForm = document.getElementById('infoForm');
+    const infoDisplay = document.getElementById('infoDisplay');
+    const closePoliceBtn = document.getElementById('closePoliceBtn');
+
+    // Close police section
+    closePoliceBtn.addEventListener('click', function() {
+      policeSection.style.display = 'none';
+    });
 
     // ========== CONTACTS MANAGEMENT ==========
     function saveContacts() {
@@ -1443,6 +1725,241 @@
     // Update contact count badge
     function updateContactCountBadge() {
       contactCountBadge.textContent = emergencyContacts.length;
+    }
+
+    // ========== YOUR INFO FUNCTIONS ==========
+    function loadUserInfo() {
+      if (userInfo) {
+        document.getElementById('infoName').value = userInfo.name || '';
+        document.getElementById('infoAddress').value = userInfo.address || '';
+        document.getElementById('infoBlood').value = userInfo.blood || '';
+        document.getElementById('infoEmergency').value = userInfo.emergency || '';
+      }
+    }
+
+    function saveUserInfo() {
+      const name = document.getElementById('infoName').value.trim();
+      const address = document.getElementById('infoAddress').value.trim();
+      const blood = document.getElementById('infoBlood').value.trim();
+      const emergency = document.getElementById('infoEmergency').value.trim();
+      
+      if (!name || !address || !blood || !emergency) {
+        showToast({ 
+          title: 'Incomplete Info', 
+          message: 'Please fill all fields.', 
+          iconType: 'attention',
+          duration: 3000 
+        });
+        return;
+      }
+      
+      userInfo = { name, address, blood, emergency };
+      localStorage.setItem('userInfo', JSON.stringify(userInfo));
+      
+      showToast({ 
+        title: 'Info Saved', 
+        message: 'Your information has been saved.', 
+        iconType: 'success',
+        duration: 3000 
+      });
+      
+      // Hide the form
+      infoSection.style.display = 'none';
+    }
+
+    function displayUserInfo() {
+      if (!userInfo) {
+        // Show form to enter info
+        infoSection.style.display = 'block';
+        infoForm.style.display = 'block';
+        infoDisplay.style.display = 'none';
+        infoSection.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+      
+      // Show info display card
+      infoSection.style.display = 'block';
+      infoForm.style.display = 'none';
+      
+      infoDisplay.innerHTML = `
+        <div class="info-display-card">
+          <div class="info-display-item">
+            <div class="info-display-label">Full Name</div>
+            <div class="info-display-value">${userInfo.name}</div>
+          </div>
+          <div class="info-display-item">
+            <div class="info-display-label">Home Address</div>
+            <div class="info-display-value">${userInfo.address}</div>
+          </div>
+          <div class="info-display-item">
+            <div class="info-display-label">Blood Group</div>
+            <div class="info-display-value">${userInfo.blood}</div>
+          </div>
+          <div class="info-display-item">
+            <div class="info-display-label">Emergency Contact</div>
+            <div class="info-display-value">${userInfo.emergency}</div>
+          </div>
+          <div class="info-timer">
+            <i class="fas fa-clock"></i> Auto-closing in 7 seconds
+          </div>
+        </div>
+      `;
+      infoDisplay.style.display = 'block';
+      
+      infoSection.scrollIntoView({ behavior: 'smooth' });
+      
+      // Auto close after 7 seconds
+      if (infoCardTimeout) clearTimeout(infoCardTimeout);
+      infoCardTimeout = setTimeout(() => {
+        infoSection.style.display = 'none';
+        infoCardTimeout = null;
+      }, 7000);
+    }
+
+    document.getElementById('saveInfoBtn').addEventListener('click', saveUserInfo);
+
+    // ========== POLICE STATION FUNCTIONS ==========
+    function findNearestPoliceStations() {
+      policeSection.style.display = 'block';
+      policeLoading.style.display = 'block';
+      policeStationsList.style.display = 'none';
+      policeError.style.display = 'none';
+      
+      policeSection.scrollIntoView({ behavior: 'smooth' });
+      
+      showToast({ 
+        title: 'Finding Police Stations', 
+        message: 'Searching for nearest police stations...', 
+        iconType: 'success',
+        duration: 3000 
+      });
+      
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          function(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            currentLat = lat;
+            currentLon = lon;
+            
+            // Use OpenStreetMap Overpass API to find police stations
+            const overpassUrl = `https://overpass-api.de/api/interpreter?data=[out:json];(node[amenity=police](around:5000,${lat},${lon});way[amenity=police](around:5000,${lat},${lon}););out center;`;
+            
+            fetch(overpassUrl)
+              .then(response => response.json())
+              .then(data => {
+                const stations = data.elements.filter(el => el.tags && el.tags.name);
+                
+                if (stations.length === 0) {
+                  policeLoading.style.display = 'none';
+                  policeStationsList.style.display = 'none';
+                  policeError.style.display = 'block';
+                  return;
+                }
+                
+                // Process stations
+                const stationsWithDistance = stations.map(station => {
+                  const stationLat = station.lat || (station.center && station.center.lat);
+                  const stationLon = station.lon || (station.center && station.center.lon);
+                  
+                  if (!stationLat || !stationLon) return null;
+                  
+                  const distance = calculateDistance(lat, lon, stationLat, stationLon);
+                  return {
+                    name: station.tags.name,
+                    lat: stationLat,
+                    lon: stationLon,
+                    distance: distance,
+                    phone: station.tags.phone || station.tags['contact:phone'] || 'Phone not available',
+                    address: station.tags['addr:full'] || station.tags.address || 'Address not available'
+                  };
+                }).filter(s => s !== null);
+                
+                // Sort by distance
+                stationsWithDistance.sort((a, b) => a.distance - b.distance);
+                
+                // Display top 5 stations
+                displayPoliceStations(stationsWithDistance.slice(0, 5));
+              })
+              .catch(error => {
+                console.error('Error:', error);
+                policeLoading.style.display = 'none';
+                policeStationsList.style.display = 'none';
+                policeError.style.display = 'block';
+              });
+          },
+          function(error) {
+            policeLoading.style.display = 'none';
+            policeError.style.display = 'block';
+            showToast({ 
+              title: 'Location Error', 
+              message: 'Unable to get your location. Please enable GPS.', 
+              iconType: 'attention',
+              duration: 5000 
+            });
+          }
+        );
+      } else {
+        policeLoading.style.display = 'none';
+        policeError.style.display = 'block';
+        showToast({ 
+          title: 'Not Supported', 
+          message: 'Geolocation is not supported by your browser.', 
+          iconType: 'attention',
+          duration: 5000 
+        });
+      }
+    }
+
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = deg2rad(lat2 - lat1);
+      const dLon = deg2rad(lon2 - lon1);
+      const a = 
+        Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+        Math.sin(dLon/2) * Math.sin(dLon/2); 
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+      return R * c;
+    }
+
+    function deg2rad(deg) {
+      return deg * (Math.PI/180);
+    }
+
+    function displayPoliceStations(stations) {
+      let stationsHtml = '';
+      
+      stations.forEach(station => {
+        const distanceKm = station.distance.toFixed(2);
+        const mapsLink = `https://www.google.com/maps/dir/?api=1&destination=${station.lat},${station.lon}`;
+        const phoneCall = station.phone !== 'Phone not available' ? `tel:${station.phone.replace(/\D/g,'')}` : '#';
+        
+        stationsHtml += `
+          <div class="police-station-card">
+            <div class="police-station-name">${station.name}</div>
+            <div class="police-station-distance"><i class="fas fa-location-dot"></i> ${distanceKm} km away</div>
+            <div class="police-station-address"><i class="fas fa-map-pin"></i> ${station.address}</div>
+            <div class="police-station-actions">
+              <button class="police-action-btn directions" onclick="window.open('${mapsLink}', '_blank')">
+                <i class="fas fa-directions"></i> Directions
+              </button>
+              ${station.phone !== 'Phone not available' ? 
+                `<button class="police-action-btn call" onclick="window.location.href='${phoneCall}'">
+                  <i class="fas fa-phone"></i> Call
+                </button>` : 
+                `<button class="police-action-btn call" style="background: #6b7280;" disabled>
+                  <i class="fas fa-phone"></i> No Phone
+                </button>`
+              }
+            </div>
+          </div>
+        `;
+      });
+      
+      policeStationsList.innerHTML = stationsHtml;
+      policeLoading.style.display = 'none';
+      policeStationsList.style.display = 'block';
     }
 
     // ========== LOCATION FUNCTIONS ==========
@@ -1532,6 +2049,9 @@
         emergencyContacts.forEach(contact => {
           let msg = `⛔ EMERGENCY SOS ALERT from Quick Call!\n\n• Status: DANGER - Need immediate help!\n• Recipient: ${contact.name}\n• Time: ${new Date().toLocaleTimeString()}`;
           if (locationLink) msg += `\n• Live Location: ${locationLink}`;
+          if (userInfo) {
+            msg += `\n\n• My Info: ${userInfo.name}, Blood: ${userInfo.blood}`;
+          }
           msg += `\n\nPlease track me and call for help!`;
           openWhatsApp(contact.number, msg);
         });
@@ -1554,7 +2074,7 @@
       }
     }
 
-    // ========== SIREN FUNCTIONS (FIXED) ==========
+    // ========== SIREN FUNCTIONS ==========
     function startSiren() {
       showToast({ 
         title: 'Siren Activated', 
@@ -1563,19 +2083,15 @@
         duration: 6000 
       });
       
-      // If siren already exists, just show the section
       if (sirenAudio) {
         sirenSection.style.display = 'block';
         sirenSection.scrollIntoView({ behavior: "smooth" });
         return;
       }
       
-      // Create new audio context
       try {
-        // Create audio context
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
         
-        // Create oscillator and gain
         const oscillator = audioContext.createOscillator();
         const gainNode = audioContext.createGain();
         
@@ -1586,12 +2102,10 @@
         oscillator.connect(gainNode);
         gainNode.connect(audioContext.destination);
         
-        // Resume audio context (critical for first-time playback)
         if (audioContext.state === 'suspended') {
           audioContext.resume().then(() => {
             oscillator.start();
             
-            // Start frequency oscillation
             let frequency = 400;
             sirenInterval = setInterval(() => {
               frequency = frequency === 400 ? 800 : 400;
@@ -1613,7 +2127,6 @@
         } else {
           oscillator.start();
           
-          // Start frequency oscillation
           let frequency = 400;
           sirenInterval = setInterval(() => {
             frequency = frequency === 400 ? 800 : 400;
@@ -1647,7 +2160,6 @@
         clearInterval(sirenInterval);
         sirenInterval = null;
       }
-      // Don't close audio context, just stop the sound
       sirenSection.style.display = 'none';
     }
 
@@ -1706,7 +2218,7 @@
       }
     }
 
-    // ========== FAKE CALL (NO TOAST) ==========
+    // ========== FAKE CALL ==========
     function updateCallStatusTime() {
       const now = new Date();
       let hours = now.getHours();
@@ -1717,7 +2229,6 @@
     }
     
     function fakeCall() {
-      // NO TOAST - directly show fake call screen
       document.getElementById('fakeCallScreen').style.display = 'flex';
       updateCallStatusTime();
       if (fakeCallInterval) clearInterval(fakeCallInterval);
@@ -1734,14 +2245,12 @@
       clearInterval(fakeCallInterval); fakeCallInterval = null;
     };
 
-    // ========== SHOW SAVED CONTACTS CARD (PROFESSIONAL) ==========
+    // ========== SHOW SAVED CONTACTS CARD ==========
     function showSavedContactsCard() {
-      // Clear any existing timeout
       if (contactsCardTimeout) {
         clearTimeout(contactsCardTimeout);
       }
       
-      // Populate the saved contacts grid
       if (emergencyContacts.length === 0) {
         savedContactsGrid.innerHTML = `
           <div class="empty-state">
@@ -1751,7 +2260,6 @@
         `;
       } else {
         savedContactsGrid.innerHTML = emergencyContacts.map((contact, index) => {
-          // Get first letter for avatar
           const initial = contact.name.charAt(0).toUpperCase();
           return `
             <div class="contact-row">
@@ -1768,16 +2276,10 @@
         }).join('');
       }
       
-      // Update badge
       updateContactCountBadge();
-      
-      // Show the card
       savedContactsCard.classList.add('show');
-      
-      // Scroll to card
       savedContactsCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
       
-      // Auto close after 8 seconds
       contactsCardTimeout = setTimeout(() => {
         savedContactsCard.classList.remove('show');
         contactsCardTimeout = null;
@@ -1785,43 +2287,24 @@
     }
 
     // ========== EVENT LISTENERS ==========
-    // URGENT CALL - NO TOAST
+    // URGENT CALL
     document.getElementById('cardEmergency').addEventListener('click', function() {
       quickCall('999');
     });
 
     document.getElementById('cardLocation').addEventListener('click', getLocation);
-
     document.getElementById('cardWhatsapp').addEventListener('click', shareLocation);
-
-    // FAKE CALL - NO TOAST
     document.getElementById('cardFake').addEventListener('click', fakeCall);
-
     document.getElementById('cardSiren').addEventListener('click', startSiren);
+    
+    // Police Station
+    document.getElementById('cardPolice').addEventListener('click', findNearestPoliceStations);
+    
+    // Your Info
+    document.getElementById('cardInfo').addEventListener('click', displayUserInfo);
 
-    // FOLLOW ME - WITH TOAST (feature unavailable)
-    document.getElementById('cardFollow').addEventListener('click', function() {
-      showToast({ 
-        title: 'Feature Unavailable!', 
-        message: 'Follow Me will be added in the next update.', 
-        iconType: 'warning',
-        duration: 3000 
-      });
-    });
-
-    // RECORD VIDEO - WITH TOAST (feature unavailable)
-    document.getElementById('cardRecord').addEventListener('click', function() {
-      showToast({ 
-        title: 'Feature Unavailable!', 
-        message: 'Video recording will be added in the next update.', 
-        iconType: 'warning',
-        duration: 3000 
-      });
-    });
-
-    // Contacts card shows the professionally redesigned saved contacts card
     document.getElementById('cardContacts').addEventListener('click', showSavedContactsCard);
-
+    
     document.getElementById('sirenOn').addEventListener('click', startSiren);
     document.getElementById('sirenOff').addEventListener('click', stopSiren);
 
@@ -1838,6 +2321,20 @@
         window.open("https://www.google.com/maps/dir/?api=1&destination=" + currentLat + "," + currentLon);
       } else {
         getLocation();
+      }
+    });
+    
+    // Police section buttons
+    document.getElementById('refreshPoliceBtn').addEventListener('click', findNearestPoliceStations);
+    document.getElementById('openPoliceMapsBtn').addEventListener('click', function() {
+      if (currentLat && currentLon) {
+        window.open(`https://www.google.com/maps/search/police+station/@${currentLat},${currentLon},14z`, '_blank');
+      } else {
+        getLocation(function() {
+          if (currentLat && currentLon) {
+            window.open(`https://www.google.com/maps/search/police+station/@${currentLat},${currentLon},14z`, '_blank');
+          }
+        });
       }
     });
     
@@ -1865,9 +2362,13 @@
       }
     });
 
+    // Initialize
     mapSection.style.display = 'none';
+    policeSection.style.display = 'none';
+    infoSection.style.display = 'none';
     displayContacts();
     updateContactCountBadge();
+    loadUserInfo();
 
     window.addEventListener('load', function() {
       if (emergencyContacts.length > 0) {
