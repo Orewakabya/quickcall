@@ -201,15 +201,15 @@
     }
 
    
-    /* --- SOS BUTTON (modified: smaller, transparent red, professional) --- */
+    /* --- SOS BUTTON (same style, repositioned later via DOM) --- */
     .sos-button {
       background: rgba(220, 38, 38, 0.2);        /* transparent red */
       border: 2px solid rgba(220, 38, 38, 0.7);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
       border-radius: 60px;
-      padding: 12px 28px;                         /* smaller than original */
-      font-size: 24px;                             /* slightly reduced */
+      padding: 12px 28px;                         
+      font-size: 24px;                             
       font-weight: 700;
       color: #b91c1c;
       cursor: pointer;
@@ -709,7 +709,7 @@
       box-shadow: 0 15px 30px rgba(0,0,0,0.1);
     }
 
-     /* ========== FAKE CALL SCREEN — REDESIGNED LIKE REAL PHONE UI (MOBILE) ========== */
+     /* ========== FAKE CALL SCREEN — REDESIGNED LIKE REAL PHONE UI (BUTTONS AT BOTTOM) ========== */
     .fake-call-screen {
       position: fixed;
       top: 0;
@@ -780,9 +780,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start; /* changed to push buttons down */
       padding: 0 20px;
-      margin-top: -30px; /* balance */
+      margin-top: 15vh; 
     }
     .caller-photo {
       width: 130px;
@@ -806,14 +806,15 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       font-weight: 300;
       opacity: 0.7;
-      margin-bottom: 70px;       /* creates gap between text and buttons */
+      margin-bottom: 60px;       
     }
-    /* action buttons: exactly enough gap, proper size, animations */
+    /* action buttons: repositioned to bottom with extra space */
     .call-actions-row {
       display: flex;
-      gap: 60px;                 /* wide gap between accept/decline */
+      gap: 70px;                 /* increased gap */
       align-items: center;
       justify-content: center;
+      margin-top: auto;           /* push to bottom */
       margin-bottom: 60px;
     }
     .call-btn-real {
@@ -877,13 +878,8 @@
     </div>
   </div>
 
-  <!-- SOS PANIC BUTTON -->
-  <button class="sos-button" id="sosPanicBtn">
-    SOS
-  </button>
-
-  <!-- Contacts Management Section -->
-  <div class="section">
+  <!-- Contacts Management Section (moved above SOS) -->
+  <div class="section" id="contactsSection">
     <h2><i class="fas fa-address-book"></i> Emergency Contacts</h2>
     <div class="contacts-section">
       <div class="contact-input-group">
@@ -894,6 +890,11 @@
       <div class="contacts-list" id="contactsList"></div>
     </div>
   </div>
+
+  <!-- SOS PANIC BUTTON (repositioned under contacts) -->
+  <button class="sos-button" id="sosPanicBtn">
+    SOS
+  </button>
 
   <!-- main section with cards -->
   <div class="section" id="mainSection">
@@ -958,10 +959,10 @@
   </div>
   <div class="credit-popup" id="creditPopup">
     <ul style="list-style: none;">
-      <li><i class="fas fa-user-circle"></i> Creator Name : Kabya Saha</li>
-      <li><i class="fas fa-robot"></i> AI Assistance : ChatGPT · DeepSeek</li>
-      <li><i class="fas fa-globe"></i> Web Hosting : InfinityFree</li>
-      <li><i class="fas fa-calendar-alt"></i> Date Created : 03/03/2026</li>
+      <li><i class="fas fa-user-circle"></i> Developer : Kabya Saha</li>
+      <li><i class="fas fa-microchip"></i> AI Engine : ChatGPT · DeepSeek</li>
+      <li><i class="fas fa-cloud-upload-alt"></i> Hosted on : InfinityFree</li>
+      <li><i class="fas fa-code-branch"></i> Version : 2.1.0 · 03/03/2026</li>
     </ul>
   </div>
 
@@ -991,7 +992,7 @@
   </div>
 </div>
 
-<!-- FAKE CALL SCREEN — redesigned with real phone UI, system font, proper gap -->
+<!-- FAKE CALL SCREEN — redesigned with real phone UI, buttons at bottom with more gap -->
 <div class="fake-call-screen" id="fakeCallScreen">
   <div class="call-status-bar">
     <div class="status-left" id="callStatusTime">9:41</div>
@@ -1197,7 +1198,7 @@
       }
     }
 
-    // ========== SOS FUNCTION ==========
+    // ========== SOS FUNCTION (fixed: send to ALL contacts, no country code assumption) ==========
     function triggerSOS() {
       if (emergencyContacts.length === 0) {
         showToast({ 
@@ -1211,36 +1212,39 @@
       
       showToast({ 
         title: 'SOS Activated', 
-        message: 'Sending emergency messages to all contacts.', 
+        message: `Sending emergency messages to ${emergencyContacts.length} contact(s).`, 
         iconType: 'attention',
         duration: 6000 
       });
       
+      // Function to send WhatsApp to all contacts (without stripping + or country code)
+      const sendToAll = (locationLink) => {
+        emergencyContacts.forEach(contact => {
+          let rawNumber = contact.number.trim();
+          // Remove only spaces, dashes — keep + and country code intact
+          let cleanNumber = rawNumber.replace(/[\s\-\(\)]/g, '');
+          let msg = `⛔ EMERGENCY SOS ALERT from Quick Call!\n\n• Status: DANGER - Need immediate help!\n• Recipient: ${contact.name}\n• Time: ${new Date().toLocaleTimeString()}`;
+          if (locationLink) msg += `\n• Live Location: ${locationLink}`;
+          msg += `\n\nPlease track me and call for help!`;
+          
+          window.open(`https://wa.me/${cleanNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+        });
+      };
+
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           function(pos) {
             const lat = pos.coords.latitude;
             const lon = pos.coords.longitude;
             const locationLink = `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;
-            const timeString = new Date().toLocaleTimeString();
-            
-            emergencyContacts.forEach(contact => {
-              let msg = `⛔ EMERGENCY SOS ALERT from Quick Call!\n\n• Status: DANGER - Need immediate help!\n• Recipient: ${contact.name}\n• Time: ${timeString}\n• Live Location: ${locationLink}\n\nPlease track me and call for help!`;
-              window.open(`https://wa.me/${contact.number.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(msg)}`, '_blank');
-            });
+            sendToAll(locationLink);
           },
           function() {
-            emergencyContacts.forEach(contact => {
-              let msg = `⛔ EMERGENCY SOS ALERT from Quick Call!\n\n• Status: DANGER - Need immediate help!\n• Recipient: ${contact.name}\n• Time: ${new Date().toLocaleTimeString()}\n\nPlease contact me immediately!`;
-              window.open(`https://wa.me/${contact.number.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(msg)}`, '_blank');
-            });
+            sendToAll(null); // send without location
           }
         );
       } else {
-        emergencyContacts.forEach(contact => {
-          let msg = `⛔ EMERGENCY SOS ALERT from Quick Call!`;
-          window.open(`https://wa.me/${contact.number.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(msg)}`, '_blank');
-        });
+        sendToAll(null);
       }
     }
 
@@ -1360,7 +1364,8 @@
         });
       }
     }
- // ========== FAKE CALL (REAL PHONE UI) ==========
+
+    // ========== FAKE CALL (REAL PHONE UI, no popup toast) ==========
     function updateCallStatusTime() {
       const now = new Date();
       let hours = now.getHours();
@@ -1370,7 +1375,7 @@
       document.getElementById('callStatusTime').innerText = `${hours}:${minutes} ${ampm}`;
     }
     function fakeCall() {
-      showToast({ title:'Fake Call', message:'Incoming from Maa', iconType:'success' });
+      // NO TOAST for fake call (removed)
       document.getElementById('fakeCallScreen').style.display = 'flex';
       updateCallStatusTime();
       if (fakeCallInterval) clearInterval(fakeCallInterval);
@@ -1385,7 +1390,6 @@
       if (window.currentRingtone) { window.currentRingtone.pause(); window.currentRingtone = null; }
       clearInterval(fakeCallInterval); fakeCallInterval = null;
     };
-
 
     // ========== EVENT LISTENERS ==========
     document.getElementById('sosPanicBtn').addEventListener('click', triggerSOS);
@@ -1408,7 +1412,7 @@
 
     document.getElementById('cardWhatsapp').addEventListener('click', shareLocation);
 
-    document.getElementById('cardFake').addEventListener('click', fakeCall);
+    document.getElementById('cardFake').addEventListener('click', fakeCall);   // no popup inside
 
     document.getElementById('cardSiren').addEventListener('click', startSiren);
 
@@ -1430,14 +1434,9 @@
       });
     });
 
+    // ========== CONTACTS CARD: scroll to very top (no popup) ==========
     document.getElementById('cardContacts').addEventListener('click', function() {
-      showToast({ 
-        title: 'My Contacts', 
-        message: `${emergencyContacts.length} emergency contacts saved.`, 
-        iconType: 'success',
-        duration: 6000 
-      });
-      document.querySelector('.contacts-section').scrollIntoView({ behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
     document.getElementById('sirenOn').addEventListener('click', startSiren);
@@ -1485,7 +1484,7 @@
     mapSection.style.display = 'none';
     displayContacts();
 
-    // Welcome toast
+    // Welcome toast (optional)
     window.addEventListener('load', function() {
       if (emergencyContacts.length > 0) {
         showToast({ 
