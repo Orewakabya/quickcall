@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>QuickCall — Emergency Safety</title>
+<title>QuickCall</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='12' fill='%23ff3c3c'/%3E%3Cpath d='M16.422 13.443c-.293-.293-.684-.45-1.076-.45-.397 0-.788.157-1.083.45l-2.12 2.12c-2.244-.783-3.814-2.354-4.596-4.58l2.12-2.12c.586-.586.586-1.536 0-2.122L6.3 4.221c-.293-.293-.684-.45-1.076-.45-.397 0-.788.157-1.083.45L2.5 5.865c-.657.657-.92 1.564-.756 2.421.55 2.826 2.28 5.647 4.696 8.064 2.416 2.416 5.238 4.146 8.064 4.696.857.164 1.764-.099 2.421-.756l1.644-1.644c.293-.293.45-.684.45-1.083 0-.392-.157-.783-.45-1.076l-3.069-3.069z' fill='white'/%3E%3C/svg%3E" type="image/svg+xml">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -457,7 +457,7 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
     <div class="sos-ring">
       <button class="sos-btn" id="sosPanicBtn">SOS</button>
     </div>
-    <div class="sos-hint">Tap to send emergency alert · Shake to trigger siren.</div>
+    <div class="sos-hint"></div>
   </div>
 
   <!-- EMERGENCY CONTACTS -->
@@ -475,8 +475,8 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
     </div>
     <div class="card-body">
       <div class="contacts-input-row">
-        <input type="text" id="contactName"   placeholder="Name">
-        <input type="tel"  id="contactNumber" placeholder="Phone number">
+        <input type="text" id="contactName"   placeholder="Name:">
+        <input type="tel"  id="contactNumber" placeholder="Phone No:">
         <button class="add-btn" id="addContactBtn"><i class="fas fa-plus"></i></button>
       </div>
       <div class="contacts-list" id="contactsList"></div>
@@ -488,35 +488,35 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
   <div class="actions-grid">
     <div class="action-tile tile-call" id="tileCall">
       <div class="tile-icon"><i class="fas fa-phone-volume"></i></div>
-      <div><div class="tile-label">Urgent Call</div><div class="tile-desc">Call 999.</div></div>
+      <div><div class="tile-label">EMERGENCY CALL</div><div class="tile-desc">Nationwide Helpdesk</div></div>
     </div>
     <div class="action-tile tile-blue" id="tileLocation">
       <div class="tile-icon"><i class="fas fa-location-dot"></i></div>
-      <div><div class="tile-label">Location</div><div class="tile-desc">Show on map.</div></div>
+      <div><div class="tile-label">YOUR LOCATION</div><div class="tile-desc">Google Map</div></div>
     </div>
     <div class="action-tile tile-green" id="tileWhatsapp">
       <div class="tile-icon"><i class="fab fa-whatsapp"></i></div>
-      <div><div class="tile-label">Alert</div><div class="tile-desc">Share via WA.</div></div>
+      <div><div class="tile-label">ALERT</div><div class="tile-desc">WhatsApp Message</div></div>
     </div>
     <div class="action-tile tile-amber" id="tileFake">
       <div class="tile-icon"><i class="fas fa-phone"></i></div>
-      <div><div class="tile-label">Fake Call</div><div class="tile-desc">Escape tool.</div></div>
+      <div><div class="tile-label">FAKE CALL</div><div class="tile-desc">Escape Tool</div></div>
     </div>
     <div class="action-tile tile-red" id="tileSiren">
       <div class="tile-icon"><i class="fas fa-bell"></i></div>
-      <div><div class="tile-label">Siren</div><div class="tile-desc">Loud alarm.</div></div>
+      <div><div class="tile-label">SIREN</div><div class="tile-desc">Loud Sound</div></div>
     </div>
     <div class="action-tile tile-blue" id="tilePolice">
       <div class="tile-icon"><i class="fas fa-shield-halved"></i></div>
-      <div><div class="tile-label">Police</div><div class="tile-desc">Nearest station.</div></div>
+      <div><div class="tile-label">POLICE</div><div class="tile-desc">Nearest Station</div></div>
     </div>
     <div class="action-tile tile-purple" id="tileInfo">
       <div class="tile-icon"><i class="fas fa-id-card"></i></div>
-      <div><div class="tile-label">My Info</div><div class="tile-desc">Medical data.</div></div>
+      <div><div class="tile-label">MY INFO.</div><div class="tile-desc">Emergency Information</div></div>
     </div>
     <div class="action-tile tile-green" id="tileContacts">
       <div class="tile-icon"><i class="fas fa-users"></i></div>
-      <div><div class="tile-label">My Contacts</div><div class="tile-desc">View saved.</div></div>
+      <div><div class="tile-label">MY CONTACTS</div><div class="tile-desc">Saved Contacts</div></div>
     </div>
   </div>
 
@@ -529,7 +529,7 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
     <div class="panel-body">
       <iframe id="mapFrame" class="map-frame" allowfullscreen="" loading="lazy"></iframe>
       <div class="btn-row">
-        <button class="btn btn-blue"  id="openMapsBtn"><i class="fas fa-map"></i> Open Maps</button>
+        <button class="btn btn-blue"  id="openMapsBtn"><i class="fas fa-map"></i> Map</button>
         <button class="btn btn-green" id="navigateBtn"><i class="fas fa-route"></i> Navigate</button>
       </div>
     </div>
@@ -544,12 +544,12 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
     <div class="panel-body">
       <div id="policeLoading" class="loading-state">
         <div class="spinner"></div>
-        <p>Locating nearby stations…</p>
+        <p>Locating nearby stations.</p>
       </div>
       <div id="policeList" style="display:none;"></div>
       <div class="btn-row" style="margin-top:14px;">
         <button class="btn btn-surface" id="refreshPoliceBtn"><i class="fas fa-rotate-right"></i> Refresh</button>
-        <button class="btn btn-blue"    id="openPoliceMapsBtn"><i class="fas fa-map"></i> Maps</button>
+        <button class="btn btn-blue"    id="openPoliceMapsBtn"><i class="fas fa-map"></i> Map</button>
       </div>
     </div>
   </div>
@@ -567,7 +567,7 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
         <div class="siren-bar"></div>
       </div>
       <div class="siren-controls">
-        <button class="btn btn-red"     id="sirenOnBtn"><i class="fas fa-volume-up"></i> Start Siren</button>
+        <button class="btn btn-red"     id="sirenOnBtn"><i class="fas fa-volume-up"></i> Start</button>
         <button class="btn btn-surface" id="sirenOffBtn"><i class="fas fa-volume-mute"></i> Stop</button>
       </div>
     </div>
@@ -582,20 +582,20 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
     <div class="panel-body">
       <div id="infoFormContainer">
         <div class="info-field">
-          <label>Full Name</label>
-          <input type="text" id="infoName"      placeholder="Enter your full name"    autocomplete="name">
+          <label>Full Name:</label>
+          <input type="text" id="infoName"      placeholder="Enter your full name."    autocomplete="name">
         </div>
         <div class="info-field">
-          <label>Home Address</label>
-          <input type="text" id="infoAddress"   placeholder="Enter your home address" autocomplete="street-address">
+          <label>Home Address:</label>
+          <input type="text" id="infoAddress"   placeholder="Enter your current home address." autocomplete="street-address">
         </div>
         <div class="info-field">
-          <label>Blood Group</label>
+          <label>Blood Group:</label>
           <input type="text" id="infoBlood"     placeholder="e.g. O+">
         </div>
         <div class="info-field">
-          <label>Emergency Contact</label>
-          <input type="tel"  id="infoEmergency" placeholder="Phone number"            autocomplete="tel">
+          <label>Emergency Contact:</label>
+          <input type="tel"  id="infoEmergency" placeholder="Input your valid phone number."            autocomplete="tel">
         </div>
         <div class="btn-row" style="margin-top:4px;">
           <button class="btn btn-surface" id="closeInfoFormBtn"><i class="fas fa-times"></i> Cancel</button>
@@ -624,7 +624,7 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
   <div class="section-label">About</div>
   <div class="credit-section">
     <button class="credit-toggle" id="creditToggle">
-      <i class="fas fa-info-circle"></i> Credits &amp; Version
+      <i class="fas fa-info-circle"></i> Credits &amp; Assistance
       <i class="fas fa-chevron-down" id="creditChevron" style="margin-left:auto;transition:transform 0.3s;"></i>
     </button>
     <div class="credit-panel" id="creditPanel">
@@ -646,7 +646,7 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
       </div>
       <div class="credit-row">
         <div class="credit-row-icon"><i class="fas fa-calendar"></i></div>
-        <div><div class="credit-label">Updated</div><div class="credit-value">05 March 2026</div></div>
+        <div><div class="credit-label">Release Date</div><div class="credit-value">03.03.2026</div></div>
       </div>
     </div>
   </div>
@@ -656,7 +656,7 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
     <div class="qr-wrap">
       <img src="https://images4.imagebam.com/54/e7/73/ME1B1XIM_o.jpg" alt="QR Code">
     </div>
-    <div class="footer-text">© 2026 QuickCall · All Rights Reserved.</div>
+    <div class="footer-text">© 2026 All Rights Reserved.</div>
   </footer>
 
 </div>
@@ -681,7 +681,7 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
   <div class="fake-caller-area">
     <img src="https://cdn-icons-png.freepik.com/256/3177/3177440.png" alt="Maa" class="fake-photo">
     <div class="fake-name">Maa</div>
-    <div class="fake-sub">Incoming call…</div>
+    <div class="fake-sub">Incoming call</div>
   </div>
   <div class="fake-actions">
     <div class="fake-btn fake-decline" onclick="closeFakeCall()"><i class="fas fa-phone-slash"></i></div>
@@ -728,7 +728,7 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
   function renderContacts() {
     const list = document.getElementById('contactsList');
     if (!contacts.length) {
-      list.innerHTML = '<div class="empty-state"><i class="fas fa-address-book"></i><p>No contacts detected — add one above.</p></div>';
+      list.innerHTML = '<div class="empty-state"><i class="fas fa-address-book"></i><p>No contacts found!</p></div>';
       return;
     }
     list.innerHTML = contacts.map((c, i) => `
@@ -773,7 +773,7 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
 `⛔ EMERGENCY SOS ⛔
 
 • RECIPIENT  : ${recipientName}
-• MESSAGE    : I'M IN DANGER
+• MESSAGE    : I'M IN DANGER!
 • TIME       : ${timeStr}
 • DATE       : ${dateStr}
 • LOCATION   : ${locationLine ? locationLine : 'GPS unavailable — call me NOW'}`;
@@ -818,12 +818,12 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
 
     const buildWAMsg = (locationLine) => {
       let msg =
-`⛔ *EMERGENCY SOS* ⛔
+`⛔ HELP NEEDED ⛔
 
-• *MESSAGE*   : I'M IN DANGER
-• *TIME*      : ${timeStr}
-• *DATE*      : ${dateStr}
-• *LOCATION*  : ${locationLine ? locationLine : 'GPS unavailable — call me NOW'}`;
+•  MESSAGE    : I'M IN DANGER
+•  TIME       : ${timeStr}
+•  DATE       : ${dateStr}
+•  LOCATION   : ${locationLine ? locationLine : 'GPS unavailable — call me NOW'}`;
       return msg;
     };
 
@@ -929,7 +929,7 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
               if (!sLat || !sLon) return null;
               const dist = calcDist(lat, lon, sLat, sLon);
               const t = s.tags;
-              let addr = 'Address unavailable.';
+              let addr = 'Address unavailable';
               if (t['addr:full']) addr = t['addr:full'];
               else if (t['addr:street']) addr = [t['addr:housenumber'], t['addr:street'], t['addr:city']].filter(Boolean).join(', ');
               let phone = null;
@@ -942,7 +942,7 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
 
           document.getElementById('policeLoading').style.display = 'none';
           document.getElementById('policeList').innerHTML = stations.length === 0
-            ? '<div class="empty-state"><i class="fas fa-map-marked-alt"></i><p>No stations found nearby.</p></div>'
+            ? '<div class="empty-state"><i class="fas fa-map-marked-alt"></i><p>No stations found nearby!</p></div>'
             : stations.map((s, i) => `
               <div class="station-card">
                 <div class="station-header">
