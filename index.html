@@ -104,6 +104,22 @@ body.light-mode .ambient { opacity:0.4; }
   position:relative; z-index:1;
 }
 
+/* ── DB STATUS INDICATOR ── */
+.db-status {
+  display:flex; align-items:center; gap:6px;
+  padding:6px 12px; border-radius:100px;
+  background:var(--surface2); border:1px solid var(--border);
+  font-size:11px; font-weight:600; color:var(--text3);
+  transition:all 0.3s ease;
+}
+.db-dot {
+  width:7px; height:7px; border-radius:50%; background:var(--amber);
+  animation:db-pulse 1.5s ease-in-out infinite;
+}
+.db-dot.connected { background:var(--green); animation:none; }
+.db-dot.error     { background:var(--red);   animation:none; }
+@keyframes db-pulse { 0%,100%{opacity:1;}50%{opacity:0.3;} }
+
 /* ── HEADER ── */
 .header { padding:52px 0 28px; }
 .header-inner { display:flex; align-items:center; justify-content:space-between; margin-bottom:28px; }
@@ -133,8 +149,6 @@ body.light-mode .logo-icon       { box-shadow:0 0 24px rgba(26,111,255,0.4); }
 }
 .theme-btn:hover { border-color:var(--border2); color:var(--text); transform:scale(1.05); }
 
-/* REMOVED status-bar — no longer shown */
-
 /* ── SOS BUTTON ── */
 .sos-wrapper { padding:28px 0 20px; display:flex; flex-direction:column; align-items:center; gap:16px; }
 .sos-ring { position:relative; display:flex; align-items:center; justify-content:center; }
@@ -161,7 +175,6 @@ body.light-mode .sos-ring::after       { border:1px solid rgba(255,60,60,0.3); }
 }
 .sos-btn:hover  { transform:scale(1.05); filter:brightness(1.1); }
 .sos-btn:active { transform:scale(0.97); }
-/* Subtext = red */
 .sos-hint { font-size:12px; color:var(--text2); text-align:center; letter-spacing:0.5px; font-weight:500; }
 
 /* ── SECTION LABELS ── */
@@ -195,7 +208,6 @@ body.light-mode .sos-ring::after       { border:1px solid rgba(255,60,60,0.3); }
 .card-header-left { display:flex; align-items:center; gap:12px; }
 .card-icon { width:38px; height:38px; border-radius:11px; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; }
 .card-title { font-family:var(--font-display); font-size:15px; font-weight:700; letter-spacing:0.3px; color:var(--text); }
-/* Subtext = red */
 .card-subtitle { font-size:12px; color:var(--text2); margin-top:1px; font-weight:500; }
 .card-chevron { color:var(--text3); font-size:13px; transition:transform 0.3s ease; }
 .card.open .card-chevron { transform:rotate(180deg); }
@@ -253,7 +265,6 @@ body.light-mode .sos-ring::after       { border:1px solid rgba(255,60,60,0.3); }
 .tile-icon { width:52px; height:52px; border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:22px; transition:transform 0.2s ease; }
 .action-tile:hover .tile-icon { transform:scale(1.1); }
 .tile-label { font-family:var(--font-display); font-weight:700; font-size:13px; color:var(--text); letter-spacing:0.3px; }
-/* Tile subtext = red */
 .tile-desc  { font-size:11px; color:var(--text2); margin-top:1px; font-weight:500; }
 
 .tile-call .tile-icon { background:var(--call-dim); color:var(--call-color); transition:background 0.4s,color 0.4s; }
@@ -428,6 +439,17 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
 ::-webkit-scrollbar { width:4px; }
 ::-webkit-scrollbar-track { background:transparent; }
 ::-webkit-scrollbar-thumb { background:var(--border2); border-radius:10px; }
+
+/* ── DB SYNC BADGE ── */
+.sync-badge {
+  display:inline-flex; align-items:center; gap:5px;
+  padding:3px 9px; border-radius:100px;
+  font-size:10px; font-weight:700; letter-spacing:0.5px;
+  text-transform:uppercase;
+}
+.sync-badge.synced  { background:var(--green-dim); color:var(--green); }
+.sync-badge.syncing { background:var(--amber-dim); color:var(--amber); }
+.sync-badge.offline { background:var(--red-dim);   color:var(--red); }
 </style>
 </head>
 <body>
@@ -444,12 +466,16 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
         <div class="logo-text">Quick<span>Call</span></div>
       </div>
       <div class="header-controls">
+        <!-- DB status pill -->
+        <div class="db-status" id="dbStatus">
+          <div class="db-dot" id="dbDot"></div>
+          <span id="dbLabel">Connecting</span>
+        </div>
         <button class="theme-btn" id="themeBtn" title="Toggle theme">
           <i class="fas fa-sun" id="themeIcon"></i>
         </button>
       </div>
     </div>
-    <!-- STATUS BAR REMOVED -->
   </div>
 
   <!-- SOS -->
@@ -630,11 +656,15 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
     <div class="credit-panel" id="creditPanel">
       <div class="credit-row">
         <div class="credit-row-icon"><i class="fas fa-user"></i></div>
-        <div><div class="credit-label">Developer</div><div class="credit-value">A.S.Kabya</div></div>
+        <div><div class="credit-label">Developer</div><div class="credit-value">Kabya Saha</div></div>
       </div>
       <div class="credit-row">
         <div class="credit-row-icon"><i class="fas fa-microchip"></i></div>
         <div><div class="credit-label">AI Engine</div><div class="credit-value">ChatGPT · DeepSeek · Claude</div></div>
+      </div>
+      <div class="credit-row">
+        <div class="credit-row-icon"><i class="fas fa-database"></i></div>
+        <div><div class="credit-label">Database</div><div class="credit-value">JSONBin.io (Cloud)</div></div>
       </div>
       <div class="credit-row">
         <div class="credit-row-icon"><i class="fas fa-cloud-upload-alt"></i></div>
@@ -642,7 +672,7 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
       </div>
       <div class="credit-row">
         <div class="credit-row-icon"><i class="fas fa-code-branch"></i></div>
-        <div><div class="credit-label">Version</div><div class="credit-value">3.0.0</div></div>
+        <div><div class="credit-label">Version</div><div class="credit-value">4.0.0</div></div>
       </div>
       <div class="credit-row">
         <div class="credit-row-icon"><i class="fas fa-calendar"></i></div>
@@ -656,7 +686,7 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
     <div class="qr-wrap">
       <img src="https://images4.imagebam.com/54/e7/73/ME1B1XIM_o.jpg" alt="QR Code">
     </div>
-    <div class="footer-text">© 2026 All Rights Reserved.</div>
+    <div class="footer-text">© 2026 All Rights Reserved · Kabya Saha</div>
   </footer>
 
 </div>
@@ -691,14 +721,128 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
 
 <script>
 (function () {
-  let contacts = JSON.parse(localStorage.getItem('qc_contacts') || '[]');
-  let userInfo = JSON.parse(localStorage.getItem('qc_info')     || 'null');
-  let lat = null, lon = null;
-  let sirenActive = false;
-  let audioCtx = null, sirenOsc = null, sirenInterval = null;
-  let fakeCallTimer = null, contactsPopupTimeout = null, infoAutoClose = null, toastTimer = null;
 
-  // ── THEME ──
+  /* ══════════════════════════════════════════════
+     DATABASE — JSONBin.io (free, no login needed)
+     We create a unique bin per device using a
+     random device ID stored in localStorage.
+     All data: contacts + userInfo in one bin.
+  ══════════════════════════════════════════════ */
+  const JSONBIN_API = 'https://api.jsonbin.io/v3';
+  const JSONBIN_KEY = '$2a$10$7ht9bYomSMSM.b78JJNjUOp.mlmqTCw4BvSJ9aqfE2oeDBxE/iJna';
+
+  // Unique device identifier
+  let deviceId = localStorage.getItem('qc_device_id');
+  if (!deviceId) {
+    deviceId = 'qc_' + Math.random().toString(36).substr(2, 12) + Date.now().toString(36);
+    localStorage.setItem('qc_device_id', deviceId);
+  }
+
+  let binId = localStorage.getItem('qc_bin_id_' + deviceId) || null;
+  let dbReady = false;
+  let contacts = [];
+  let userInfo = null;
+
+  // DB status helpers
+  function setDbStatus(state, label) {
+    const dot = document.getElementById('dbDot');
+    const lbl = document.getElementById('dbLabel');
+    dot.className = 'db-dot ' + (state === 'connected' ? 'connected' : state === 'error' ? 'error' : '');
+    lbl.textContent = label;
+  }
+
+  /* ── JSONBIN HELPERS ── */
+  async function dbCreate(data) {
+    try {
+      const r = await fetch(`${JSONBIN_API}/b`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Master-Key': JSONBIN_KEY,
+          'X-Bin-Name': 'QuickCall-' + deviceId,
+          'X-Bin-Private': 'false'
+        },
+        body: JSON.stringify(data)
+      });
+      if (!r.ok) throw new Error('create failed');
+      const j = await r.json();
+      return j.metadata.id;
+    } catch (e) { return null; }
+  }
+
+  async function dbRead(id) {
+    try {
+      const r = await fetch(`${JSONBIN_API}/b/${id}/latest`, {
+        headers: { 'X-Master-Key': JSONBIN_KEY, 'X-Bin-Meta': 'false' }
+      });
+      if (!r.ok) throw new Error('read failed');
+      return await r.json();
+    } catch (e) { return null; }
+  }
+
+  async function dbWrite(id, data) {
+    try {
+      const r = await fetch(`${JSONBIN_API}/b/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY },
+        body: JSON.stringify(data)
+      });
+      return r.ok;
+    } catch (e) { return false; }
+  }
+
+  /* ── INIT DATABASE ── */
+  async function initDB() {
+    setDbStatus('syncing', 'Connecting');
+    const payload = { contacts: [], userInfo: null, deviceId, version: '4.0.0' };
+
+    if (binId) {
+      const data = await dbRead(binId);
+      if (data) {
+        contacts = data.contacts || [];
+        userInfo  = data.userInfo  || null;
+        dbReady = true;
+        setDbStatus('connected', 'Cloud Synced');
+        renderContacts(); updateSubtitle();
+        if (userInfo) prefillInfoForm();
+        return;
+      }
+      // bin gone — recreate
+      binId = null; localStorage.removeItem('qc_bin_id_' + deviceId);
+    }
+
+    // Create new bin
+    const newId = await dbCreate(payload);
+    if (newId) {
+      binId = newId;
+      localStorage.setItem('qc_bin_id_' + deviceId, binId);
+      dbReady = true;
+      setDbStatus('connected', 'Cloud Synced');
+    } else {
+      // Fallback to localStorage if JSONBin unavailable
+      setDbStatus('error', 'Local Only');
+      const fallback = JSON.parse(localStorage.getItem('qc_fallback') || '{}');
+      contacts = fallback.contacts || [];
+      userInfo  = fallback.userInfo  || null;
+      dbReady = false;
+    }
+    renderContacts(); updateSubtitle();
+    if (userInfo) prefillInfoForm();
+  }
+
+  async function saveDB() {
+    const payload = { contacts, userInfo, deviceId, version: '4.0.0', lastSaved: new Date().toISOString() };
+    // Always save to localStorage as instant fallback
+    localStorage.setItem('qc_fallback', JSON.stringify(payload));
+    if (!binId) { setDbStatus('error', 'Local Only'); return; }
+    setDbStatus('syncing', 'Saving');
+    const ok = await dbWrite(binId, payload);
+    setDbStatus(ok ? 'connected' : 'error', ok ? 'Cloud Synced' : 'Save Error');
+  }
+
+  /* ══════════════════════════════════════════════
+     THEME
+  ══════════════════════════════════════════════ */
   const themeBtn  = document.getElementById('themeBtn');
   const themeIcon = document.getElementById('themeIcon');
   let isLight = localStorage.getItem('qc_theme') === 'light';
@@ -710,7 +854,10 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
   applyTheme();
   themeBtn.addEventListener('click', () => { isLight = !isLight; applyTheme(); });
 
-  // ── TOAST ──
+  /* ══════════════════════════════════════════════
+     TOAST
+  ══════════════════════════════════════════════ */
+  let toastTimer = null;
   function toast(msg, type = 'green') {
     const el = document.getElementById('toast');
     document.getElementById('toastDot').className = 'toast-dot ' + type;
@@ -720,11 +867,9 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
     toastTimer = setTimeout(() => el.classList.remove('show'), 3500);
   }
 
-  // ── CONTACTS ──
-  function saveContacts() {
-    localStorage.setItem('qc_contacts', JSON.stringify(contacts));
-    renderContacts(); updateSubtitle();
-  }
+  /* ══════════════════════════════════════════════
+     CONTACTS
+  ══════════════════════════════════════════════ */
   function renderContacts() {
     const list = document.getElementById('contactsList');
     if (!contacts.length) {
@@ -741,61 +886,94 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
         <button class="delete-btn" onclick="deleteContact(${i})"><i class="fas fa-trash"></i></button>
       </div>`).join('');
   }
-  window.deleteContact = function (i) { contacts.splice(i, 1); saveContacts(); toast('Contact removed.', 'red'); };
+
+  window.deleteContact = async function (i) {
+    contacts.splice(i, 1);
+    renderContacts(); updateSubtitle();
+    await saveDB();
+    toast('Contact removed.', 'red');
+  };
+
   function updateSubtitle() {
     document.getElementById('contactsSubtitle').textContent =
       contacts.length === 0 ? 'No contacts detected.' :
       contacts.length + ' contact' + (contacts.length > 1 ? 's' : '') + ' saved.';
     document.getElementById('popupBadge').textContent = contacts.length;
   }
-  document.getElementById('addContactBtn').addEventListener('click', () => {
+
+  document.getElementById('addContactBtn').addEventListener('click', async () => {
     const name   = document.getElementById('contactName').value.trim();
     const number = document.getElementById('contactNumber').value.trim();
     if (!name || !number) { toast('Fill in both fields.', 'amber'); return; }
-    contacts.push({ name, number }); saveContacts();
+    contacts.push({ name, number });
+    renderContacts(); updateSubtitle();
     document.getElementById('contactName').value   = '';
     document.getElementById('contactNumber').value = '';
+    await saveDB();
     toast('Contact saved.', 'green');
   });
+
   document.getElementById('contactsToggle').addEventListener('click', () =>
     document.getElementById('contactsCard').classList.toggle('open'));
 
-  // ── SOS — clean aligned message ──
+  /* ══════════════════════════════════════════════
+     SOS MESSAGE  — professional, no emoji
+     Renders cleanly in SMS on both mobile & PC
+  ══════════════════════════════════════════════ */
   document.getElementById('sosPanicBtn').addEventListener('click', triggerSOS);
+
   function triggerSOS() {
     if (!contacts.length) { toast('Add emergency contacts first.', 'red'); return; }
-    const now     = new Date();
-    const timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    const dateStr = now.toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
-    const buildMsg = (recipientName, locationLine) => {
-      let msg =
-`⛔ EMERGENCY SOS ⛔
+    const now = new Date();
+    const dateFull = now.toLocaleDateString('en-GB', { weekday:'long', day:'2-digit', month:'long', year:'numeric' });
+    const timeFull = now.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:true }).toUpperCase();
 
-• RECIPIENT  : ${recipientName}
-• MESSAGE    : I'M IN DANGER!
-• TIME       : ${timeStr}
-• DATE       : ${dateStr}
-• LOCATION   : ${locationLine ? locationLine : 'GPS unavailable — call me NOW'}`;
-      return msg;
-    };
+    function buildSMS(recipientName, locationLine) {
+      const locStr = locationLine || 'GPS coordinates unavailable. Please call immediately.';
+      const infoBlock = userInfo
+        ? `SENDER NAME   : ${userInfo.name}\nBLOOD GROUP   : ${userInfo.blood}\nHOME ADDRESS  : ${userInfo.address}`
+        : 'Sender details not configured in app.';
+
+      return (
+`[EMERGENCY ALERT]
+================================
+STATUS        : CRITICAL — HELP NEEDED
+TO            : ${recipientName}
+DATE          : ${dateFull}
+TIME          : ${timeFull}
+================================
+${infoBlock}
+================================
+LAST LOCATION : ${locStr}
+================================
+This is an automated SOS message
+sent via QuickCall Safety App.
+Please respond or contact emergency
+services immediately.
+================================`
+      );
+    }
 
     const sendAll = (locationLine) => {
       contacts.forEach(c => {
-        const msg = buildMsg(c.name, locationLine);
+        const msg = buildSMS(c.name, locationLine);
         window.location.href = `sms:${c.number}?body=${encodeURIComponent(msg)}`;
       });
     };
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        p => sendAll(`https://www.google.com/maps/search/?api=1&query=${p.coords.latitude},${p.coords.longitude}`),
-        ()  => sendAll(null)
+        p => sendAll(`https://maps.google.com/?q=${p.coords.latitude},${p.coords.longitude} (Accuracy: ${Math.round(p.coords.accuracy)}m)`),
+        () => sendAll(null)
       );
     } else sendAll(null);
   }
 
-  // ── LOCATION ──
+  /* ══════════════════════════════════════════════
+     LOCATION
+  ══════════════════════════════════════════════ */
+  let lat = null, lon = null;
   function getLocation(cb) {
     if (!navigator.geolocation) { toast('Geolocation not supported.', 'red'); cb && cb(false); return; }
     navigator.geolocation.getCurrentPosition(pos => {
@@ -809,38 +987,59 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
   document.getElementById('navigateBtn').addEventListener('click',  () => lat ? window.open(`https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}`) : getLocation());
   document.getElementById('closeMapBtn').addEventListener('click',  () => hidePanel('mapPanel'));
 
-  // ── WHATSAPP ALERT — clean aligned message ──
+  /* ══════════════════════════════════════════════
+     WHATSAPP ALERT — professional, no emoji
+  ══════════════════════════════════════════════ */
   document.getElementById('tileWhatsapp').addEventListener('click', shareLocation);
+
   function shareLocation() {
-    const now     = new Date();
-    const timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    const dateStr = now.toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    const now = new Date();
+    const dateFull = now.toLocaleDateString('en-GB', { weekday:'long', day:'2-digit', month:'long', year:'numeric' });
+    const timeFull = now.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:true }).toUpperCase();
 
-    const buildWAMsg = (locationLine) => {
-      let msg =
-`⛔ HELP NEEDED ⛔
+    function buildWA(locationLine) {
+      const locStr = locationLine || 'GPS unavailable. Call immediately.';
+      const infoBlock = userInfo
+        ? `Name        : ${userInfo.name}\nBlood Group : ${userInfo.blood}\nAddress     : ${userInfo.address}`
+        : 'Personal details not saved in app.';
 
-•  MESSAGE    : I'M IN DANGER
-•  TIME       : ${timeStr}
-•  DATE       : ${dateStr}
-•  LOCATION   : ${locationLine ? locationLine : 'GPS unavailable — call me NOW'}`;
-      return msg;
-    };
+      return (
+`[URGENT — HELP NEEDED]
+
+I am in danger and require immediate assistance. This message was sent automatically via QuickCall Safety App.
+
+DATE & TIME
+${dateFull} at ${timeFull}
+
+PERSONAL DETAILS
+${infoBlock}
+
+LAST KNOWN LOCATION
+${locStr}
+
+Please contact emergency services or reach me directly as soon as possible.
+
+— Sent via QuickCall Safety App`
+      );
+    }
 
     const send = (locationLine) => {
-      window.open(`https://wa.me/?text=${encodeURIComponent(buildWAMsg(locationLine))}`, '_blank');
+      window.open(`https://wa.me/?text=${encodeURIComponent(buildWA(locationLine))}`, '_blank');
     };
 
     if (lat && lon) {
-      send(`https://www.google.com/maps/search/?api=1&query=${lat.toFixed(6)},${lon.toFixed(6)}`);
+      send(`https://maps.google.com/?q=${lat.toFixed(6)},${lon.toFixed(6)}`);
     } else {
       getLocation(ok => {
-        send(ok && lat ? `https://www.google.com/maps/search/?api=1&query=${lat.toFixed(6)},${lon.toFixed(6)}` : null);
+        send(ok && lat ? `https://maps.google.com/?q=${lat.toFixed(6)},${lon.toFixed(6)}` : null);
       });
     }
   }
 
-  // ── FAKE CALL ──
+  /* ══════════════════════════════════════════════
+     FAKE CALL
+  ══════════════════════════════════════════════ */
+  let fakeCallTimer = null;
   document.getElementById('tileFake').addEventListener('click', startFakeCall);
   function startFakeCall() {
     document.getElementById('fakeCallScreen').classList.add('active');
@@ -863,7 +1062,10 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
   };
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeFakeCall(); });
 
-  // ── SIREN ──
+  /* ══════════════════════════════════════════════
+     SIREN
+  ══════════════════════════════════════════════ */
+  let sirenActive = false, audioCtx = null, sirenOsc = null, sirenInterval = null;
   document.getElementById('tileSiren').addEventListener('click',   () => { showPanel('sirenPanel'); startSiren(); });
   document.getElementById('sirenOnBtn').addEventListener('click',  startSiren);
   document.getElementById('sirenOffBtn').addEventListener('click', stopSiren);
@@ -903,7 +1105,9 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
     });
   }
 
-  // ── POLICE ──
+  /* ══════════════════════════════════════════════
+     POLICE
+  ══════════════════════════════════════════════ */
   document.getElementById('tilePolice').addEventListener('click',       findPolice);
   document.getElementById('refreshPoliceBtn').addEventListener('click', findPolice);
   document.getElementById('closePoliceBtn').addEventListener('click',   () => hidePanel('policePanel'));
@@ -978,21 +1182,27 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
   }
   function deg2rad(d) { return d * Math.PI / 180; }
 
-  // ── USER INFO ──
+  /* ══════════════════════════════════════════════
+     USER INFO
+  ══════════════════════════════════════════════ */
+  let infoAutoClose = null;
   document.getElementById('tileInfo').addEventListener('click',         openInfoPanel);
   document.getElementById('saveInfoBtn').addEventListener('click',      saveInfo);
   document.getElementById('closeInfoBtn').addEventListener('click',     () => hidePanel('infoPanel'));
   document.getElementById('closeInfoFormBtn').addEventListener('click', () => hidePanel('infoPanel'));
+
   function openInfoPanel() { showPanel('infoPanel'); userInfo ? showInfoDisplay() : showInfoForm(); }
+  function prefillInfoForm() {
+    if (!userInfo) return;
+    document.getElementById('infoName').value      = userInfo.name      || '';
+    document.getElementById('infoAddress').value   = userInfo.address   || '';
+    document.getElementById('infoBlood').value     = userInfo.blood     || '';
+    document.getElementById('infoEmergency').value = userInfo.emergency || '';
+  }
   function showInfoForm() {
     document.getElementById('infoFormContainer').style.display    = 'block';
     document.getElementById('infoDisplayContainer').style.display = 'none';
-    if (userInfo) {
-      document.getElementById('infoName').value      = userInfo.name      || '';
-      document.getElementById('infoAddress').value   = userInfo.address   || '';
-      document.getElementById('infoBlood').value     = userInfo.blood     || '';
-      document.getElementById('infoEmergency').value = userInfo.emergency || '';
-    }
+    prefillInfoForm();
   }
   function showInfoDisplay() {
     document.getElementById('infoFormContainer').style.display    = 'none';
@@ -1012,18 +1222,22 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
     infoAutoClose = setTimeout(() => hidePanel('infoPanel'), 7000);
   }
   window._editInfo = showInfoForm;
-  function saveInfo() {
+
+  async function saveInfo() {
     const n = document.getElementById('infoName').value.trim(),
           a = document.getElementById('infoAddress').value.trim(),
           b = document.getElementById('infoBlood').value.trim(),
           e = document.getElementById('infoEmergency').value.trim();
     if (!n || !a || !b || !e) { toast('Please fill all fields.', 'amber'); return; }
     userInfo = { name: n, address: a, blood: b, emergency: e };
-    localStorage.setItem('qc_info', JSON.stringify(userInfo));
-    toast('Information saved.', 'green'); showInfoDisplay();
+    await saveDB();
+    toast('Information saved to cloud.', 'green'); showInfoDisplay();
   }
 
-  // ── MY CONTACTS POPUP ──
+  /* ══════════════════════════════════════════════
+     MY CONTACTS POPUP
+  ══════════════════════════════════════════════ */
+  let contactsPopupTimeout = null;
   document.getElementById('tileContacts').addEventListener('click', showContactsPopup);
   function showContactsPopup() {
     if (contactsPopupTimeout) clearTimeout(contactsPopupTimeout);
@@ -1047,17 +1261,23 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
     contactsPopupTimeout = setTimeout(() => popup.classList.remove('visible'), 8000);
   }
 
-  // ── URGENT CALL ──
+  /* ══════════════════════════════════════════════
+     URGENT CALL
+  ══════════════════════════════════════════════ */
   document.getElementById('tileCall').addEventListener('click', () => window.location.href = 'tel:999');
 
-  // ── PANEL HELPERS ──
+  /* ══════════════════════════════════════════════
+     PANEL HELPERS
+  ══════════════════════════════════════════════ */
   function showPanel(id) {
     document.getElementById(id).classList.add('visible');
     setTimeout(() => document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
   }
   window.hidePanel = function (id) { document.getElementById(id).classList.remove('visible'); };
 
-  // ── CREDIT ──
+  /* ══════════════════════════════════════════════
+     CREDITS
+  ══════════════════════════════════════════════ */
   const creditToggle  = document.getElementById('creditToggle'),
         creditPanel   = document.getElementById('creditPanel'),
         creditChevron = document.getElementById('creditChevron');
@@ -1066,9 +1286,13 @@ body.light-mode .tile-call::before { background:linear-gradient(135deg,rgba(26,1
     creditChevron.style.transform = creditPanel.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0)';
   });
 
-  // ── INIT — welcome back only ──
-  renderContacts(); updateSubtitle();
-  setTimeout(() => toast('Welcome Back!', 'blue'), 800);
+  /* ══════════════════════════════════════════════
+     BOOT
+  ══════════════════════════════════════════════ */
+  initDB().then(() => {
+    setTimeout(() => toast('Welcome Back!', 'blue'), 800);
+  });
+
 })();
 </script>
 </body>
